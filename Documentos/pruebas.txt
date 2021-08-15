@@ -1,0 +1,43 @@
+セントラル【central】	セン ト ラ ル	`s_eh_n t_r_ax_l
+ダライラマ【Dalai Lama】	ダ ラ イ ラ マ	`d_ae `l_ey | `l_aa m_ax
+レイアウト【layout】	レ イ ア ウ ト	`l_ey `aw_t
+エルディーケー【LDK】	エ ル ディー ケー	`eh_l | `d_iy | `k_ey
+
+
+コストパフォーマンス【cost performance】	コ ス ト パ フォー マン ス	`k_aa_s_t | p_er `f_ao_r m_ax_n_s
+
+
+>>>>>>>>>>>>>>SIMPLE
+
+# Sentence pair (1558) source length 2 target length 5 alignment score : 3.57092e-06
+レ イ ト ア ト 
+NULL ({ 2 3 }) `l_eyt ({ 1 }) `aw_t ({ 4 5 })
+
+>>>>>>>>>>>>>>MULTIPLE
+
+# Sentence pair (404) source length 5 target length 5 alignment score : 1.77802e-06
+ダ ラ イ ラ マ 
+NULL ({ 3 }) `d_ae ({ 1 }) `l_ey ({ 2 }) | ({ }) `l_aa ({ 4 }) m_ax ({ 5 }) 
+# Sentence pair (305) source length 5 target length 7 alignment score : 3.23564e-06
+コ ス ト パ フォー マン ス 
+NULL ({ }) `k_aa_s_t ({ 1 2 3 }) | ({ }) p_er ({ 4 }) `f_ao_r ({ 5 }) m_ax_n_s ({ 6 7 }) 
+
+>>>>>>>>>>>>>>>>COMBINADO
+
+# Sentence pair (1) source length 2 target length 4 alignment score : 0.00481252
+セン ト ラ ル 
+NULL ({ }) `s_eh_n ({ 1 }) t_r_ax_l ({ 2 3 4 }) 
+# Sentence pair (404) source length 5 target length 5 alignment score : 1.77802e-06
+ダ ラ イ ラ マ 
+NULL ({ 3 }) `d_ae ({ 1 }) `l_ey ({ 2 }) | ({ }) `l_aa ({ 4 }) m_ax ({ 5 }) 
+# Sentence pair (1558) source length 2 target length 5 alignment score : 3.57092e-06
+レ イ ア ウ ト 
+NULL ({ 2 }) `l_ey ({ 1 }) `aw_t ({ 3 4 5 }) 
+# Sentence pair (1989) source length 2 target length 3 alignment score : 7.9192e-06
+モー ト ル 
+NULL ({ 2 }) `m_ow ({ 1 }) t_er ({ 3 }) 
+# Sentence pair (1560) source length 5 target length 4 alignment score : 0.0154121
+エ ル ディー ケー 
+NULL ({ }) `eh_l ({ 1 2 }) | ({ }) `d_iy ({ 3 }) | ({ }) `k_ey ({ 4 }) 
+
+
