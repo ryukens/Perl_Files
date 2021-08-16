@@ -24,68 +24,49 @@ while (<FH>) {
         when($linea =~ /[|]/){
             print "palabra multiple\n";
             print $linea;
-            $orden =~ s/[^0-9]//g;
-            @orden_og = split('', $orden, length($orden));
-            print "orden: $orden\n";
-            print @orden_og;
-            print "\n";
-            @orden_sort = sort {$a <=> $b} @orden_og;
-            print @orden_sort;
-            print "\n";
-            if (@orden_og ~~ @orden_sort) {
-                printf "Esta ordenado correctamente\n"
-            }else{
-                printf "Se debe ordenar\n";                
-                $string = $linea;
-                
-                my $valor;
-                while ($string =~ /NULL (\(\{([\s\d]*)\}\))/g) {
+            $string = $linea;
+            my $valor;
+            my $inicio = '';
+            
+            my @linea_og = split(/\|+ /, $string, length($string));
+            my $cont = 0;
+            
+            foreach my $palabra (@linea_og){
+                #print "palabra: $palabra \n";
+                while ($palabra =~ /NULL (\(\{([\s\d]*)\}\))/g) {
                     $valor = $1;
                 }
-                
-                my $a = &reemplazo($valor,$linea,\@array_jp);
-                
-                print "A: $a \n";
-                
-            }    
+                while ($palabra =~ /^(\(\{([\s\d]*)\}\))/g) {
+                    $valor = $1;
+                }
+                my $resto = &reemplazo($valor,$palabra,\@array_jp);
+                if ($cont == 0) {
+                    $inicio = $resto;
+                }else{
+                    $inicio = $inicio."| ".$resto;
+                }                    
+                $cont = $cont+1;
+            }
+            $linea = $inicio;
+            
+            print "LINEA FINAL: $linea \n";
+            
             print "+++++++++++++++++ORDENADO++++++++++++++++++\n";
         }
         
         when($linea =~ /NULL/ && $linea !~ /[|]/){
             print "palabra simple\n";
             print $linea;
-            print "\n";
-            $orden =~ s/[^0-9]//g;
-            @orden_og = split('', $orden, length($orden));
-            print @orden_og;
-            print "\n";
-            @orden_sort = sort {$a <=> $b} @orden_og;
-            print @orden_sort;
-            print "\n";
-            if (@orden_og ~~ @orden_sort) {
-                printf "Esta ordenado correctamente\n";
-            }else{
-                printf "Se debe ordenar\n";                
-                $string = $linea;
-                
-                #my ($pal) = $string =~ /(\(\{(\s\*[\s1-9]\s\*)\}\))/;
-                my $valor;
-                while ($string =~ /NULL (\(\{([\s\d]*)\}\))/g) {
-                    $valor = $1;
-                }
-                
-                my $a = &reemplazo($valor,$linea,\@array_jp);
-                
-                print "A: $a \n";
-                
-                #my ($pal) = $string =~ /(\(\{([\s1-9]*)\}\))/g;
-                #print "pal: ".$pal;
-                
-                #my $string = '[48:31.8] Sent: >33*1311875297587*eval*0*frame[0]*"A"<';
-                #my ($number) = $string =~ /\*(\d+)\*eval\*/;
-                #print $number;                
-                
-            }                
+            $string = $linea;
+            
+            my $valor;
+            while ($string =~ /NULL (\(\{([\s\d]*)\}\))/g) {
+                $valor = $1;
+            }
+            
+            $linea = &reemplazo($valor,$linea,\@array_jp);
+            
+            print "LINEA FINAL: $linea \n";                
             
             print "----------------ORDENADO----------------------\n";
             
@@ -99,21 +80,8 @@ while (<FH>) {
             #print "ooooooooooooooooooooooooooo\n";
         }
         #default {print "-\n";}
-    }
-    
-    #if ($linea =~ /[|]/) {
-    #    print "\n linea: ".$linea;
-    #}
-    
-    
-    #if ($linea =~ /NULL\s\(\{\s\}\)/ | $linea =~ /\|\s\(\{\s\}\)/) {
-    #    $orden =~ s/[^0-9]//g;
-    #    print "\n linea: ".$linea;
-    #    print "\n orden: ".$orden;
-    #}
-    
+    }    
 }
-
 
 
 close(FH);
@@ -152,10 +120,16 @@ sub reemplazo {
     my @orden_actual = split('', $orden, length($orden));
     my @orden_sort = sort {$a <=> $b} @orden_actual;
     
-    $linea_og =~ s/NULL \(\{[\s\d]*\}\)/NULL \(\{ \}\)/;
+    $linea_og =~ s/^NULL \(\{[\s\d]*\}\)/NULL \(\{ \}\)/;
+    $linea_og =~ s/^(\(\{([\s\d]*)\}\))/\(\{ \}\)/;
     
     $indice =~ s/[^\d]//g;
     @array_indices = split('', $indice, length($indice));
+    
+    if ($indice eq "") {
+        print "\nNO QUEDAN INDICES POR ORDENAR\n";
+        return $linea_og;
+    }
     
     foreach $en_syl_phoneme (@array_en_phoneme) {
         print "Phonema EN = ".$en_syl_phoneme."\n";
@@ -175,37 +149,48 @@ sub reemplazo {
                     print "ENCONTRADO: ".$en_syl_phoneme."\n";
                     $flag = $contador + 1;
                 }
+                when($en_syl_phoneme =~ /f/ && $array_jp_og[$contador] =~ /フォ/){
+                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
+                    $flag = $contador + 1;
+                }
+                when($en_syl_phoneme =~ /m/ && $array_jp_og[$contador] =~ /マン/){
+                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
+                    $flag = $contador + 1;
+                }
+                when($en_syl_phoneme =~ /p/ && $array_jp_og[$contador] =~ /パ/){
+                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
+                    $flag = $contador + 1;
+                }
+                when($en_syl_phoneme =~ /l/ && $array_jp_og[$contador] =~ /レ/){
+                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
+                    $flag = $contador + 1;
+                }
                 default{$flag = 0;}
                 #PENDIENTE ANALIZAR CUANDO UN MISMO FONEMA APARECE REPETIDO
             };
             
             $orden =~ s/[^0-9]//g;
             @orden_actual = split('', $orden, length($orden));           
-            print @orden_actual;
-            print "\n";
-            print @orden_sort;
-            print "\n";
+            #print @orden_actual;
+            #print "\n";
+            #print @orden_sort;
+            #print "\n";
                              
-            if (@orden_actual ~~ @orden_sort) {
+            if (@orden_actual ~~ @orden_sort && $indice eq "") {
                 print "\nNO QUEDAN INDICES POR ORDENAR\n";
                 return $linea_og;
             }else{
                 if ( grep(/$flag/, @array_indices)) {
                     $linea_og = &ordenar($linea_og, $en_syl_phoneme, $flag);
                     $orden = $linea_og;
-                    print "ALGO FUE ORDENADO\n";
+                    print "FONEMA ALINEADO\n";
                 }
                 $flag = 0;
-                
-                #REEMPLAZAR / AÑADIR EL INDICE AL FONEMA EN INGLÉS
-                
-                #print "SYL: ".$en_syl_phoneme." PARA ORDENAR: ".$linea_og."\n";
                 print "\n";
             }
         }
         $contador = 0;
         print ":::::::::::::FIN FOR EACH:::::::::::::::::\n";
-        
         };
     
     print "::::::::::::::FINAL::::::::::::::::::::\n";
@@ -223,9 +208,9 @@ sub ordenar {
     if ($linea_og =~ /$en_syl_phoneme (\(\{([\s1-9]*)\}\))/g) {
         push (@indices, $1);
     }
-    print "\nFONEMA INDICES\n";
+    print "\nFONEMA $en_syl_phoneme INDICES\n";
     print @indices;
-    print "\nFONEMA INDICES\n";
+    print "\nFONEMA $en_syl_phoneme INDICES\n";
     
     my $orden = $indices[0];
     $orden =~ s/[^\d]//g;

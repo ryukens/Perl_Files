@@ -1,8 +1,8 @@
 use warnings;
 use strict;
 
-my $filename = 'C:\Users\jjmor\Documents\JJMB\Documentos\words_list.txt';
-my $filename2 = 'C:\Users\jjmor\Documents\JJMB\Documentos\words_list_2.txt';
+my $filename = '..\Documentos\words_list.txt';
+my $filename2 = '..\Documentos\words_list_2.txt';
 my $linea;
 my @token;
 

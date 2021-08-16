@@ -2,8 +2,8 @@ use warnings;
 use strict;
 use 5.28.1;
 
-my $filename = 'C:\Users\jjmor\Documents\JJMB\Documentos\words_list.txt';
-my $filename2 = 'C:\Users\jjmor\Documents\JJMB\Documentos\words_list_3.txt';
+my $filename = '..\Documentos\words_list.txt';
+my $filename2 = '..\Documentos\words_list_3.txt';
 my $linea;
 my $palabra;
 my $tipo;
