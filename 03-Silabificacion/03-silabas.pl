@@ -1,5 +1,6 @@
 use warnings;
-use strict;
+use strict
+use utf8;
 use 5.28.1;
 
 my $file_in = '..\Documentos\results.txt';
@@ -100,7 +101,6 @@ sub reemplazo {
     my @array_jp_og = @{$_[2]};
     my $tamano = scalar @array_jp_og;
     my $en_syl_phoneme;
-    my $jp_syl_phoneme;
     my @array_en_phoneme;
     my @array_indices;
     my $contador = 0;

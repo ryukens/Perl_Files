@@ -6,7 +6,7 @@ NULL ({ }) `s_eh_n ({ 1 }) t_r_ax_l ({ 2 3 4 })
 NULL ({ }) `s_eh_n ({ 1 }) t_r_ax_l ({ 2 3 4 }) | ({ }) `hh_iy ({ 5 }) t_ax_ng ({ 6 7 }) 
 # Sentence pair (297) source length 2 target length 4 alignment score : 5.07816e-05
 コ ル セッ ト 
-NULL ({ }) `k_ao_r ({ 1 }) s_ax_t ({ 2 3 4 }) 
+NULL ({ }) `k_ao_r ({ 1 2 }) s_ax_t ({ 3 4 }) 
 # Sentence pair (298) source length 2 target length 3 alignment score : 0.00230558
 コ サ イン 
 NULL ({ }) `k_ow ({ 1 }) `z_iy_n ({ 2 3 }) 

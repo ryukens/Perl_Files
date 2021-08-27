@@ -34,6 +34,10 @@ Se calculará una probabilidad condicional para los evevntos siguientes dado un 
 POSITIVE/NEGATIVE LOOKAHEAD
 
 
+ム
+
+
+
 コストパフォーマンス【cost performance】	コ ス ト パ フォー マン ス	`k_aa_s_t | p_er `f_ao_r m_ax_n_s
 
 
@@ -75,4 +79,25 @@ NULL ({ }) `eh_l ({ 1 2 }) | ({ }) `d_iy ({ 3 }) | ({ }) `k_ey ({ 4 })
 # Sentence pair (305) source length 5 target length 7 alignment score : 3.23564e-06
 コ ス ト パ フォー マン ス 
 NULL ({ 2 }) `k_aa_s_t ({ 1 3 }) | ({ 4 }) p_er ({ }) `f_ao_r ({ 5 }) m_ax_n_s ({ 6 7 }) 
+
+>>>>>>>>>>>>>>>>ALINEADO
+
+# Sentence pair (1) source length 2 target length 4 alignment score : 0.00481252
+セン ト ラ ル 
+NULL ({ }) `s_eh_n ({ 1 }) t_r_ax_l ({ 2 3 4 }) 
+# Sentence pair (2) source length 5 target length 7 alignment score : 6.25419e-05
+セン ト ラ ル ヒー ティン グ 
+NULL ({ }) `s_eh_n ({ 1 }) t_r_ax_l ({ 2 3 4 }) | ({ }) `hh_iy ({ 5 }) t_ax_ng ({ 6 7 }) 
+# Sentence pair (297) source length 2 target length 4 alignment score : 5.07816e-05
+コ ル セッ ト 
+NULL ({ }) `k_ao_r ({ 1 }) s_ax_t ({ 2 3 4 }) 
+# Sentence pair (298) source length 2 target length 3 alignment score : 0.00230558
+コ サ イン 
+NULL ({ }) `k_ow ({ 1 }) `z_iy_n ({ 2 3 }) 
+
+>>>>>>>>>>>>>>>>ERROR CODIFICACION
+
+# Sentence pair (856) source length 3 target length 4 alignment score : 0.0028254
+エ フ エ ム 
+NULL ({ }) `eh_f ({ 1 2 }) | ({ }) `eh_m ({ 3 4 }) 
 
