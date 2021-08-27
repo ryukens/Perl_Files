@@ -4,16 +4,32 @@ use 5.28.1;
 
 my $file_in = '..\Documentos\results_final.txt';
 my $file_out = '..\Documentos\modelo_observable.txt';
+my $file_out2 = '..\Documentos\modelo_oculto.txt';
 my $linea;
 my @array_jp;
 
 open(FH, '<', $file_in) or die $!;
 open(FHO, '+>', $file_out) or die $!;
+open(FHO2, '+>', $file_out2) or die $!;
 
 while (<FH>) {
     $linea = $_;
     given($linea){        
-        when($linea =~ /NULL/){
+        when($linea =~ /[|]/){
+            
+            $linea =~ s/^NULL \(\{[\s\d]*\}\)//;
+            
+            my @linea_og = split(/\|+ /, $linea, length($linea));
+            
+            foreach my $palabra (@linea_og){
+                $palabra =~ s/^(\(\{([\s\d]*)\}\))//;
+                print "palabra: $palabra \n";
+                &union($palabra,\@array_jp);
+            }
+        }
+        when($linea =~ /NULL/ && $linea !~ /[|]/){
+            print "LIST\n";
+            $linea =~ s/^NULL \(\{[\s\d]*\}\)//;
             &union($linea,\@array_jp);
         }
         when ($linea !~ /[0-9]/){
@@ -32,6 +48,7 @@ while (<FH>) {
 
 close(FH);
 close(FHO);
+close(FHO2);
 
 
 # FUNCIONES
@@ -47,14 +64,16 @@ sub union {
     my $indice_katakana;
     my $fonema;
     my $fonema_katakana;
+    my $katakana_oculto;
+    my @array_kat_oculto;
     
     print "\nLINEA\n";
     print $linea_og;
     print "\nKATAKANAS\n";
     print @array_katakana;
         
-    $linea_og =~ s/^NULL \(\{[\s\d]*\}\)//;
-    $linea_og =~ s/\|\s(\(\{([\s\d]*)\}\))//;
+    #$linea_og =~ s/^NULL \(\{[\s\d]*\}\)//;
+    #$linea_og =~ s/\|\s(\(\{([\s\d]*)\}\))//;
     
     while ($linea_og =~ /(`?\w*\s\(\{[\s\d]*\}\))/g) {
         push (@array_phoneme, $1);
@@ -80,8 +99,19 @@ sub union {
             $secuencia_katakana = "$secuencia_katakana".$array_katakana[$indice_katakana-1];
             print "Secuencia_katakana: $secuencia_katakana\n";
         }
+        push (@array_kat_oculto, $secuencia_katakana);
+        #MODELO OBSERVABLE
         $fonema_katakana = "$fonema $secuencia_katakana\n";
-        print "\nSALIDA: $fonema_katakana\n";
-        print FHO $fonema_katakana;              
-    }            
+        print "\nSALIDA OBSERVABLE: $fonema_katakana\n";
+        print FHO $fonema_katakana;
+        
+    }
+    #MODELO OCULTO
+    $katakana_oculto = "<s>";
+    foreach my $secuencia_oculta (@array_kat_oculto){
+        $katakana_oculto = "$katakana_oculto ".$secuencia_oculta;
+    }
+    $katakana_oculto = "$katakana_oculto </s>\n";
+    print "\nSALIDA OCULTO: $katakana_oculto\n";
+    print FHO2 $katakana_oculto;
 }

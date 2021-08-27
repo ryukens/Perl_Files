@@ -420,7 +420,7 @@ NULL ({ }) `f_l_ae_t ({ 1 2 3 })
 NULL ({ }) `f_l_eh_k ({ 1 2 3 }) s_ax ({ 4 }) b_ax_l ({ 5 6 }) 
 # Sentence pair (844) source length 2 target length 7 alignment score : 1.4165e-10
 フ レッ ク ス タ イ ム 
-NULL ({ }) `f_l_eh_k ({ 1 6 }) `s_t_ay_m ({ 2 3 4 5 6 7 }) 
+NULL ({ }) `f_l_eh_k ({ 1 }) `s_t_ay_m ({ 2 3 4 5 6 7 }) 
 # Sentence pair (845) source length 1 target length 4 alignment score : 0.000368112
 フ ラ イ ト 
 NULL ({ }) `f_l_ay_t ({ 1 2 3 4 }) 
@@ -513,10 +513,10 @@ NULL ({ }) `l_aa ({ 1 }) v_ax ({ 2 })
 NULL ({ }) `l_ao_n ({ 1 }) 
 # Sentence pair (1557) source length 2 target length 4 alignment score : 2.65491e-05
 レ イ オ フ 
-NULL ({ }) `l_ey ({ 1 2 }) `ao_f ({ 2 3 4 }) 
+NULL ({ }) `l_ey ({ 1 2 }) `ao_f ({ 3 4 }) 
 # Sentence pair (1558) source length 2 target length 5 alignment score : 3.57092e-06
 レ イ ア ウ ト 
-NULL ({ }) `l_ey ({ 1 2 }) `aw_t ({ 2 3 4 5 }) 
+NULL ({ }) `l_ey ({ 1 2 }) `aw_t ({ 3 4 5 }) 
 # Sentence pair (1559) source length 3 target length 3 alignment score : 0.0288783
 エ ル ディー 
 NULL ({ }) `eh_l ({ 1 2 }) | ({ }) `d_iy ({ 3 }) 
@@ -759,7 +759,7 @@ NULL ({ }) `m_ih ({ 1 }) l_ax ({ 2 }) `b_aa_r ({ 3 4 })
 NULL ({ }) `m_ih ({ 1 }) l_ax ({ 2 }) `g_r_ae_m ({ 3 4 5 }) 
 # Sentence pair (1889) source length 4 target length 5 alignment score : 1.65812e-07
 ミ リ リッ ト ル 
-NULL ({ }) `m_ih ({ 1 4 }) `l_ih ({ 2 4 }) l_ax ({ 3 4 }) t_er ({ 4 5 }) 
+NULL ({ }) `m_ih ({ 1 }) `l_ih ({ 2 }) l_ax ({ 3 }) t_er ({ 4 5 }) 
 # Sentence pair (1890) source length 3 target length 5 alignment score : 6.80448e-07
 ミ リ メー ト ル 
 NULL ({ }) `m_ih ({ 1 }) l_ax_m ({ 2 3 4 }) t_er ({ 5 }) 
@@ -846,7 +846,7 @@ NULL ({ }) `m_ih_s ({ 1 2 })
 NULL ({ }) `m_ih_s ({ 1 2 }) 
 # Sentence pair (1918) source length 2 target length 4 alignment score : 7.3105e-06
 ミ サ イ ル 
-NULL ({ }) `m_ih ({ 1 3 }) s_ax_l ({ 2 3 4 }) 
+NULL ({ }) `m_ih ({ 1 3 }) s_ax_l ({ 2 4 }) 
 # Sentence pair (1919) source length 2 target length 2 alignment score : 0.0558088
 ミッ ション 
 NULL ({ }) `m_ih ({ 1 }) sh_ax_n ({ 2 }) 
@@ -882,7 +882,7 @@ NULL ({ }) `m_aa_b ({ 1 2 })
 NULL ({ }) `m_aa_b ({ 1 2 }) 
 # Sentence pair (1930) source length 2 target length 4 alignment score : 5.14247e-07
 モ バ イ ル 
-NULL ({ }) `m_ow ({ 1 3 }) b_ax_l ({ 2 3 4 }) 
+NULL ({ }) `m_ow ({ 1 }) b_ax_l ({ 2 4 }) 
 # Sentence pair (1931) source length 2 target length 3 alignment score : 0.00080508
 モ ビー ル 
 NULL ({ }) `m_ow ({ 1 }) b_ax_l ({ 2 3 }) 
@@ -1059,7 +1059,7 @@ NULL ({ }) `m_ow ({ 1 }) `t_aa ({ 2 }) `k_r_ao_s ({ 3 4 5 })
 NULL ({ }) `m_ow ({ 1 }) t_er ({ 2 }) 
 # Sentence pair (1989) source length 2 target length 3 alignment score : 7.9192e-06
 モー ト ル 
-NULL ({ }) `m_ow ({ 1 2 }) t_er ({ 2 3 }) 
+NULL ({ }) `m_ow ({ 1 }) t_er ({ 2 3 }) 
 # Sentence pair (1990) source length 3 target length 5 alignment score : 0.000713595
 モー ター バ イ ク 
 NULL ({ }) `m_ow ({ 1 }) t_er ({ 2 }) `b_ay_k ({ 3 4 5 }) 
@@ -1665,7 +1665,7 @@ NULL ({ }) `z_uw_m ({ 1 2 })
 NULL ({ }) `z_uw_m ({ 1 2 }) | ({ }) `l_eh_n_z ({ 3 4 }) 
 # Sentence pair (4178) source length 3 target length 4 alignment score : 2.3103e-05
 アー カ イ バー 
-NULL ({ }) `aa_r ({ 1 3 }) `k_ih ({ 2 3 }) v_er ({ 3 4 }) 
+NULL ({ }) `aa_r ({ 1 }) `k_ih ({ 2 3 }) v_er ({ 4 }) 
 # Sentence pair (4179) source length 2 target length 4 alignment score : 0.00119919
 アー ガ イ ル 
 NULL ({ }) `aa_r ({ 1 }) `g_ay_l ({ 2 3 4 }) 
@@ -2487,7 +2487,7 @@ NULL ({ }) `r_ey ({ 1 }) d_iy ({ 2 }) `ow ({ 3 }) | ({ }) `k_ah_m ({ 4 }) p_ax_s
 NULL ({ }) `r_ey ({ 1 }) d_iy ({ 2 }) `ow ({ 3 }) | ({ }) k_ax_n ({ 4 }) `t_r_ow_l ({ 5 6 7 }) 
 # Sentence pair (2706) source length 6 target length 8 alignment score : 1.09953e-07
 ラ ジ オ ア イ ソ トー プ 
-NULL ({ }) `r_ey ({ 1 5 }) d_iy ({ 2 5 }) ow ({ 3 }) `aa ({ 4 5 }) s_ax ({ 5 6 }) `t_ow_p ({ 5 7 8 }) 
+NULL ({ }) `r_ey ({ 1 5 }) d_iy ({ 2 5 }) ow ({ 3 }) `aa ({ 4 }) s_ax ({ 6 }) `t_ow_p ({ 7 8 }) 
 # Sentence pair (2707) source length 4 target length 5 alignment score : 0.00045274
 ラ ジ オ ゾン デ 
 NULL ({ }) `r_ey ({ 1 }) d_iy ({ 2 }) ax ({ 3 }) s_ax_n_d ({ 4 5 }) 
@@ -3711,7 +3711,7 @@ NULL ({ }) `s_p_eh ({ 1 2 }) sh_ax ({ 3 }) l_ax_s_t ({ 4 5 6 })
 NULL ({ }) `s_p_eh_k ({ 1 2 3 }) t_ax ({ 4 }) k_ax_l ({ 5 6 }) 
 # Sentence pair (3357) source length 2 target length 5 alignment score : 1.27427e-07
 ス ペ ク ト ル 
-NULL ({ }) `s_p_eh_k ({ 1 2 3 4 }) t_er ({ 4 5 }) 
+NULL ({ }) `s_p_eh_k ({ 1 2 3 }) t_er ({ 4 5 }) 
 # Sentence pair (3358) source length 1 target length 3 alignment score : 0.00816205
 ス ピー チ 
 NULL ({ }) `s_p_iy_ch ({ 1 2 3 }) 
@@ -6177,7 +6177,7 @@ NULL ({ }) `s_ih ({ 1 }) n_ax ({ 2 }) k_ax_l ({ 3 4 })
 NULL ({ }) `s_ih ({ 1 }) n_ax ({ 2 }) `s_ih ({ 3 }) z_ax_m ({ 4 5 }) 
 # Sentence pair (404) source length 5 target length 5 alignment score : 1.77802e-06
 ダ ラ イ ラ マ 
-NULL ({ }) `d_ae ({ 1 3 }) `l_ey ({ 2 3 }) | ({ }) `l_aa ({ 4 }) m_ax ({ 5 }) 
+NULL ({ }) `d_ae ({ 1 }) `l_ey ({ 2 3 }) | ({ }) `l_aa ({ 4 }) m_ax ({ 5 }) 
 # Sentence pair (405) source length 1 target length 2 alignment score : 0.0914951
 ダ ム 
 NULL ({ }) `d_ae_m ({ 1 2 }) 
@@ -7317,7 +7317,7 @@ NULL ({ }) `ch_iy ({ 1 }) n_ow ({ 2 }) | ({ }) `k_l_ao_th ({ 3 4 5 })
 NULL ({ }) `ch_ih_p ({ 1 2 }) 
 # Sentence pair (63) source length 4 target length 8 alignment score : 4.76006e-08
 カ イ ロ プ ラ ク ティッ ク 
-NULL ({ }) `k_ay ({ 1 2 }) r_ow ({ 2 3 }) `p_r_ae_k ({ 2 4 5 6 }) t_ax_k ({ 2 7 8 }) 
+NULL ({ }) `k_ay ({ 1 2 }) r_ow ({ 3 }) `p_r_ae_k ({ 4 5 6 }) t_ax_k ({ 7 8 }) 
 # Sentence pair (64) source length 3 target length 4 alignment score : 0.00698336
 ク ロ レ ラ 
 NULL ({ }) k_l_ao ({ 1 2 }) `r_eh ({ 3 }) l_ax ({ 4 }) 
@@ -7326,7 +7326,7 @@ NULL ({ }) k_l_ao ({ 1 2 }) `r_eh ({ 3 }) l_ax ({ 4 })
 NULL ({ }) `k_l_ao ({ 1 2 }) r_ax ({ 3 }) `f_ao_r_m ({ 4 5 6 }) 
 # Sentence pair (66) source length 5 target length 7 alignment score : 1.51784e-07
 ク ロ ロ マ イ セ チン 
-NULL ({ }) `k_l_ao ({ 1 2 5 }) `r_aa ({ 3 5 }) m_ax ({ 4 5 }) `s_iy ({ 5 6 }) t_ax_n ({ 5 7 }) 
+NULL ({ }) `k_l_ao ({ 1 2 }) `r_aa ({ 3 }) m_ax ({ 4 }) `s_iy ({ 5 6 }) t_ax_n ({ 7 }) 
 # Sentence pair (67) source length 2 target length 5 alignment score : 0.000268562
 ク ロ ロ フィ ル 
 NULL ({ }) `k_l_ao_r ({ 1 2 3 }) f_ax_l ({ 4 5 }) 
@@ -7548,7 +7548,7 @@ NULL ({ }) eh_n ({ 1 }) `r_ih_ch ({ 2 3 })
 NULL ({ }) eh_n ({ 1 }) `t_ae ({ 2 }) s_ax_s ({ 3 4 }) 
 # Sentence pair (677) source length 4 target length 5 alignment score : 1.21295e-05
 エン ター テ イ ナー 
-NULL ({ }) `eh_n ({ 1 4 }) t_er ({ 2 4 }) `t_ey ({ 3 4 }) n_er ({ 4 5 }) 
+NULL ({ }) `eh_n ({ 1 }) t_er ({ 2 }) `t_ey ({ 3 4 }) n_er ({ 5 }) 
 # Sentence pair (678) source length 4 target length 6 alignment score : 0.00175935
 エン ター テ イ メン ト 
 NULL ({ }) `eh_n ({ 1 }) t_er ({ 2 }) `t_ey_n ({ 3 4 }) m_ax_n_t ({ 5 6 }) 
@@ -8010,7 +8010,7 @@ NULL ({ }) `k_ih ({ 1 }) l_ax ({ 2 }) `g_r_ae_m ({ 3 4 5 })
 NULL ({ }) `k_ih ({ 1 }) l_ax ({ 2 }) `hh_er_t_s ({ 3 4 5 }) 
 # Sentence pair (1495) source length 4 target length 5 alignment score : 3.08259e-08
 キ ロ リッ ト ル 
-NULL ({ }) `k_ih ({ 1 4 }) l_ax ({ 2 4 }) l_ax ({ 3 }) t_er ({ 4 5 }) 
+NULL ({ }) `k_ih ({ 1 }) l_ax ({ 2 }) l_ax ({ 3 }) t_er ({ 4 5 }) 
 # Sentence pair (1496) source length 3 target length 5 alignment score : 6.62481e-05
 キ ロ メー ト ル 
 NULL ({ }) `k_ih ({ 1 }) `l_aa_m ({ 2 3 4 }) t_er ({ 5 }) 
@@ -10071,7 +10071,7 @@ NULL ({ }) r_ax ({ 1 }) `f_ay_n ({ 2 3 })
 NULL ({ }) r_ax ({ 1 }) `f_l_eh_k ({ 2 3 4 }) t_er ({ 5 }) 
 # Sentence pair (2777) source length 6 target length 8 alignment score : 2.28099e-09
 レ フ レッ ク ス カ メ ラ 
-NULL ({ }) `r_iy ({ 1 5 }) f_l_ax_k_s ({ 2 3 4 5 }) | ({ }) `k_ae ({ 6 }) m_e ({ 7 }) r_ax ({ 8 }) 
+NULL ({ }) `r_iy ({ 1 }) f_l_ax_k_s ({ 2 3 4 5 }) | ({ }) `k_ae ({ 6 }) m_e ({ 7 }) r_ax ({ 8 }) 
 # Sentence pair (2778) source length 2 target length 3 alignment score : 0.00556058
 リ フォー ム 
 NULL ({ }) r_ax ({ 1 }) `f_ao_r_m ({ 2 3 }) 
@@ -11211,7 +11211,7 @@ NULL ({ }) `hh_eh_r ({ 1 2 }) | ({ }) `b_ae_n_d ({ 3 4 })
 NULL ({ }) `hh_eh_r_d_r ({ 1 }) y_er ({ 2 3 4 5 6 }) 
 # Sentence pair (1101) source length 2 target length 4 alignment score : 3.06357e-06
 ヘ ア ダ イ 
-NULL ({ }) `hh_eh_r ({ 1 2 4 }) d_iy ({ 3 4 }) 
+NULL ({ }) `hh_eh_r ({ 1 2 }) d_iy ({ 3 4 }) 
 # Sentence pair (1102) source length 2 target length 4 alignment score : 0.010612
 ヘ ア ピー ス 
 NULL ({ }) `hh_eh_r ({ 1 2 }) `p_iy_s ({ 3 4 }) 

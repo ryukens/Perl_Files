@@ -1,6 +1,5 @@
 use warnings;
-use strict
-use utf8;
+use strict;
 use 5.28.1;
 
 my $file_in = '..\Documentos\results.txt';
@@ -98,12 +97,11 @@ sub reemplazo {
     print "::::::::::::::INICIO::::::::::::::::::::\n";
     my $indice = $_[0];
     my $linea_og = $_[1];
-    my @array_jp_og = @{$_[2]};
-    my $tamano = scalar @array_jp_og;
+    my @array_katakana = @{$_[2]};
+    my $tamano = scalar @array_katakana;
     my $en_syl_phoneme;
     my @array_en_phoneme;
     my @array_indices;
-    my $contador = 0;
     my $flag = 0;
     my $orden = $linea_og;
     
@@ -112,7 +110,7 @@ sub reemplazo {
     print "\nLINEA\n";
     print $linea_og;
     print "\nKATAKANAS\n";
-    print @array_jp_og;
+    print @array_katakana;
     
     print "\n::::::::::::::BUSQUEDA::::::::::::::::::::\n";  
     
@@ -128,174 +126,171 @@ sub reemplazo {
     $linea_og =~ s/^(\(\{([\s\d]*)\}\))/\(\{ \}\)/;
     
     $indice =~ s/[^\d]//g;
-    @array_indices = split('', $indice, length($indice));
+    @array_indices = split('', $indice, length($indice));  
     
     if ($indice eq "") {
         print "\nNO QUEDAN INDICES POR ORDENAR\n";
         return $linea_og;
     }
     
-    foreach $en_syl_phoneme (@array_en_phoneme) {
-        print "Phonema EN = ".$en_syl_phoneme."\n";
-        for ($contador; $contador<$tamano; $contador++) {
-            print "Contador = ".$contador."\n";
-            print "Phonema JP = ".$array_jp_og[$contador]."\n";
-            given($en_syl_phoneme){                
-                #REGLAS GENERALIZADAS
-                when($en_syl_phoneme =~ /`?[aery]\w+/ && $array_jp_og[$contador] =~ /^[アヤ]/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?[iy]\w+/ && $array_jp_og[$contador] =~ /^イ/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?[auvw]\w+/ && $array_jp_og[$contador] =~ /^ウ/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?[aeiy]\w+/ && $array_jp_og[$contador] =~ /^エ/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?[aow]\w+/ && $array_jp_og[$contador] =~ /^オ/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?[bv]\w+/ && $array_jp_og[$contador] =~ /^[バビブベボ]/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?d\w+/ && $array_jp_og[$contador] =~ /^[ダヂヅデド]/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?g\w+/ && $array_jp_og[$contador] =~ /^[ガギグゲゴ]/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?[fh]\w+/ && $array_jp_og[$contador] =~ /^フ/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?([fh]|ch)\w+/ && $array_jp_og[$contador] =~ /^[ハヘ]/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?[ak]\w+/ && $array_jp_og[$contador] =~ /^ヒ/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?[fhw]\w+/ && $array_jp_og[$contador] =~ /^ホ/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?k\w+/ && $array_jp_og[$contador] =~ /^[カキクケコ]/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?m\w+/ && $array_jp_og[$contador] =~ /^[マミムメモ]/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?n\w+/ && $array_jp_og[$contador] =~ /^[ナニヌネノ]/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?(ng?|m)\w+/ && $array_jp_og[$contador] =~ /^ン/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?p\w+/ && $array_jp_og[$contador] =~ /^[パピプペポ]/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?[rl]\w+/ && $array_jp_og[$contador] =~ /^[ラリルレロ]/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?([sz]|th)\w+/ && $array_jp_og[$contador] =~ /^[サス]/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?([szy]|th)\w+/ && $array_jp_og[$contador] =~ /^シ/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?(s|th)\w+/ && $array_jp_og[$contador] =~ /^[セソ]/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?t\w+/ && $array_jp_og[$contador] =~ /^[ツテト]/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?[td]\w+/ && $array_jp_og[$contador] =~ /^タ/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?([tz]|ch)\w+/ && $array_jp_og[$contador] =~ /^チ/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?[wv]\w+/ && $array_jp_og[$contador] =~ /^[ワヲ]/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?(y|jh)\w+/ && $array_jp_og[$contador] =~ /^[ユヨ]/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?([zs]|d)\w+/ && $array_jp_og[$contador] =~ /^ザ]/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?z\w+/ && $array_jp_og[$contador] =~ /^[ズゾ]/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?([zs]|jh)\w+/ && $array_jp_og[$contador] =~ /^ゼ/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /`?([dsz]|jh)\w+/ && $array_jp_og[$contador] =~ /^ジ/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }
-                when($en_syl_phoneme =~ /^`?jh\w+/ && $array_jp_og[$contador] =~ /^[ゼゲガ]/){
-                    print "ENCONTRADO: ".$en_syl_phoneme."\n";
-                    $flag = $contador + 1;
-                }               
-                default{$flag = 0;}
-            };
-            
+    foreach my $i (@array_indices){
+        print "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii: $i\n";
+        
+        foreach $en_syl_phoneme (@array_en_phoneme) {
+            print "Phonema EN = ".$en_syl_phoneme."\n";
+            print "Phonema JP = ".$array_katakana[$i-1]."\n";            
+            #REGLAS GENERALIZADAS
+            if($en_syl_phoneme =~ /`?[aery]\w*/ && $array_katakana[$i-1] =~ /^(ア|ヤ)/){
+                print "ENCONTRADO: 1 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?[iy]\w*/ && $array_katakana[$i-1] =~ /^イ/){
+                print "ENCONTRADO: 2 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?[auvw]\w*/ && $array_katakana[$i-1] =~ /^ウ/){
+                print "ENCONTRADO: 3 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?[aeiy]\w*/ && $array_katakana[$i-1] =~ /^エ/){
+                print "ENCONTRADO: 4 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?[aow]\w*/ && $array_katakana[$i-1] =~ /^オ/){
+                print "ENCONTRADO: 5 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?[bv]\w*/ && $array_katakana[$i-1] =~ /^(バ|ビ|ブ|ベ|ボ)/){
+                print "ENCONTRADO: 6 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?d\w*/ && $array_katakana[$i-1] =~ /^(ダ|ヂ|ヅ|デ|ド)/){
+                print "ENCONTRADO: 7 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?g\w*/ && $array_katakana[$i-1] =~ /^(ガ|ギ|グ|ゲ|ゴ)/){
+                print "ENCONTRADO: 8 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?[fh]\w*/ && $array_katakana[$i-1] =~ /^フ/){
+                print "ENCONTRADO: 9 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?([fh]|ch)\w*/ && $array_katakana[$i-1] =~ /^(ハ|ヘ)/){
+                print "ENCONTRADO: 10 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?[ak]\w*/ && $array_katakana[$i-1] =~ /^ヒ/){
+                print "ENCONTRADO: 11 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?[fhw]\w*/ && $array_katakana[$i-1] =~ /^ホ/){
+                print "ENCONTRADO: 12 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?k\w*/ && $array_katakana[$i-1] =~ /^(カ|キ|ク|ケ|コ)/){
+                print "ENCONTRADO: 13 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?m\w*/ && $array_katakana[$i-1] =~ /^(マ|ミ|ム|メ|モ)/){
+                print "ENCONTRADO: 14 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?n\w*/ && $array_katakana[$i-1] =~ /^(ナ|ニ|ヌ|ネ|ノ)/){
+                print "ENCONTRADO: 15 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?(ng?|m)\w*/ && $array_katakana[$i-1] =~ /^ン/){
+                print "ENCONTRADO: 16 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?p\w*/ && $array_katakana[$i-1] =~ /^(パ|ピ|プ|ペ|ポ)/){
+                print "ENCONTRADO: 17 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?[rl]\w*/ && $array_katakana[$i-1] =~ /^(ラ|リ|ル|レ|ロ)/){
+                print "ENCONTRADO: 18 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?([sz]|th)\w*/ && $array_katakana[$i-1] =~ /^(サ|ス)/){
+                print "ENCONTRADO: 19 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?([szy]|th)\w*/ && $array_katakana[$i-1] =~ /^シ/){
+                print "ENCONTRADO: 20 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?(s|th)\w*/ && $array_katakana[$i-1] =~ /^(セ|ソ)/){
+                print "ENCONTRADO: 21 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?t\w*/ && $array_katakana[$i-1] =~ /^(ツ|テ|ト)/){
+                print "ENCONTRADO: 22 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?[td]\w*/ && $array_katakana[$i-1] =~ /^タ/){
+                print "ENCONTRADO: 23 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?([tz]|ch)\w*/ && $array_katakana[$i-1] =~ /^チ/){
+                print "ENCONTRADO: 24 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?[wv]\w*/ && $array_katakana[$i-1] =~ /^(ワ|ヲ)/){
+                print "ENCONTRADO: 25 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?(y|jh)\w*/ && $array_katakana[$i-1] =~ /^(ユ|ヨ)/){
+                print "ENCONTRADO: 26 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?([zs]|d)\w*/ && $array_katakana[$i-1] =~ /^ザ]/){
+                print "ENCONTRADO: 27 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?z\w*/ && $array_katakana[$i-1] =~ /^(ズ|ゾ)/){
+                print "ENCONTRADO: 28 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?([zs]|jh)\w*/ && $array_katakana[$i-1] =~ /^ゼ/){
+                print "ENCONTRADO: 29 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /`?([dsz]|jh)\w*/ && $array_katakana[$i-1] =~ /^ジ/){
+                print "ENCONTRADO: 30 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            if($en_syl_phoneme =~ /^`?jh\w*/ && $array_katakana[$i-1] =~ /^(ゼ|ゲ|ガ)/){
+                print "ENCONTRADO: 31 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }               
+        
             $orden =~ s/[^0-9]//g;
             @orden_actual = split('', $orden, length($orden));           
             #print @orden_actual;
             #print "\n";
             #print @orden_sort;
             #print "\n";
+            #print "FLAG = $flag \n";
                              
             if (@orden_actual ~~ @orden_sort && $indice eq "") {
                 print "\nNO QUEDAN INDICES POR ORDENAR\n";
                 return $linea_og;
             }else{
                 if ( grep(/$flag/, @array_indices)) {
-                    $linea_og = &ordenar($linea_og, $en_syl_phoneme, $flag);
-                    $orden = $linea_og;
-                    print "FONEMA ALINEADO\n";
+                $linea_og = &ordenar($linea_og, $en_syl_phoneme, $flag);
+                $orden = $linea_og;
+                print "*$orden*";
+                print "FONEMA ALINEADO\n";
                 }
                 $flag = 0;
                 print "\n";
             }
-        }
-        $contador = 0;
-        print ":::::::::::::FIN FOR EACH:::::::::::::::::\n";
-        };
-    
+            print ":::::::::::::FIN FOR EACH:::::::::::::::::\n";
+        };   
+    }
     print "::::::::::::::FINAL::::::::::::::::::::\n";
-    return ($linea_og);   
-            
+    return ($linea_og);         
 }
 
 
