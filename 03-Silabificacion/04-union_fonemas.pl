@@ -1,10 +1,15 @@
 use warnings;
 use strict;
+use utf8;
+use Encode qw/encode decode/;
+use Config;
+binmode STDOUT, ":utf8";
+binmode STDERR, ":utf8";
 use 5.28.1;
 
 my $file_in = '..\Documentos\results_final.txt';
-my $file_out = '..\Documentos\modelo_observable.txt';
-my $file_out2 = '..\Documentos\modelo_oculto.txt';
+my $file_out = '..\Documentos\diccionario_emision.txt';
+my $file_out2 = '..\Documentos\diccionario_alineacion.txt';
 my $linea;
 my @array_jp;
 
@@ -13,7 +18,8 @@ open(FHO, '+>', $file_out) or die $!;
 open(FHO2, '+>', $file_out2) or die $!;
 
 while (<FH>) {
-    $linea = $_;
+    #$linea = $_;
+    $linea = decode("utf-8", $_);
     given($linea){        
         when($linea =~ /[|]/){
             
@@ -101,7 +107,7 @@ sub union {
         }
         push (@array_kat_oculto, $secuencia_katakana);
         #MODELO OBSERVABLE
-        $fonema_katakana = "$fonema $secuencia_katakana\n";
+        $fonema_katakana = "<s> $fonema $secuencia_katakana </s>\n";
         print "\nSALIDA OBSERVABLE: $fonema_katakana\n";
         print FHO $fonema_katakana;
         
