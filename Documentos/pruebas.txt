@@ -2,9 +2,178 @@
 ダライラマ【Dalai Lama】	ダ ラ イ ラ マ	`d_ae `l_ey | `l_aa m_ax
 レイアウト【layout】	レ イ ア ウ ト	`l_ey `aw_t
 エルディーケー【LDK】	エ ル ディー ケー	`eh_l | `d_iy | `k_ey
-
-
 コストパフォーマンス【cost performance】	コ ス ト パ フォー マン ス	`k_aa_s_t | p_er `f_ao_r m_ax_n_s
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>EMISION
+
+`d_ae ダ 
+`l_ey ライ
+`l_aa ラ
+m_ax マ
+
+Esto permitirá mapear los fonemas ingles y los katakanas.
+Listado de las palabras validadas de alineación. Con este se contará la probabilidad de que el fonema tenga aquella secuencia de katakanas.
+Se  obtendra como salida una secuencia de katakanas más probable.
+Con esto se genera el modelo de emisión (de lo observado a  lo oculto)
+Será necesario otro modelo para obtener el nivel oculto.
+Generar las probabilidades ej: dado un `d_ae cual  es la probabilidad de que sea ダ (en funcicón de las cadenas de eventos consecutivos.)
+Dar un formato y subir los modelos a un simulador HMM que procesará la secuencia de estados ocultos más probables dada una secuencia de observaciones.
+
+USAR ARREGLO ASOCIATIVO -> No usa indices numéricos, usa las palabras como indice (similar a hash). Cada unico valor es una ocurrencia. Revisar si ya existe el fonema en el hash
+
+Formato para el diccionario (csv) de emisiones (modelo de emisiones):
+
+Cold,Fever,0.3
+Cold,Healthy,0.4
+Dizzy,Fever,0.6
+Dizzy,Healthy,0.1
+Normal,Fever,0.1
+Normal,Healthy,0.5
+
+La suma de todos las etiquetas de estado fever y healthy debe dar 1
+
+^(.*(?:セン|トラル|ニュー))$
+^(.*(?:セン|トラル|ニュー) <\/s>)$
+
+
+Conteos de los unigramas:
+`n_uw	12
+`s_eh_n_t	1
+`s_eh_n	16
+ch_ax_n	1
+n_y_uw	1
+s_ax_n	1
+s_eh_n	2
+t_r_ax_l	5
+コンセン	1
+セン	20
+トラル	5
+ニュー	13
+<s> 39
+</s> 39
+
+TOTAL 156
+sin <s> 117
+
+conteo de bigramas
+`n_uw ニュー	12
+`s_eh_n セン	16
+`s_eh_n_t コンセン	1
+ch_ax_n セン	1
+n_y_uw ニュー	1
+s_ax_n セン	1
+s_eh_n セン	2
+t_r_ax_l トラル	5
+
+Calcular probabilidades en base a los conteos
+Probabilidades unigramas.
+Se excluye el valor del unigrama inicial (<s> en este caso). 
+</s>		39/117		
+<s>			39/117
+`n_uw		12/117
+...			...
+
+
+Calcular probabilidades bigramas
+(prob de セン dado <s>)
+<s> セン		0.6		3/5	(hay 5 <s>)
+<s> ニュー		0.4		2/5	(hay 5 <s>)
+セン トラル		1		3/3
+トラル </s>	1		5/5
+ニュー トラル	1		2/2
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>FORMATO ARCHIVO OBSERVACIONES
+Formato para el archivo (csv) de observaciones:
+Normal,Cold,Dizzy
+Dizzy,Cold,Normal,Dizzy
+
+Cada fila tendrá los fonemas del inglés.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>MATRIZ PROBABILIDAD INICIAL
+Probabilidad de inicio
+Formato para el archivo (csv) de las probabilidades del vector de inicio:
+Healthy,0.6
+Fever,0.4
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>MODELO ALINEACION
+
+
+<s> ダ ライ </s>
+<s> ラ マ </s>
+Generar una lista con los katakanas de cada una de las palabras de manera independiente.
+Con esto se generará el modelo oculto
+El modelo oculto permitirá encontrar la secuencia de katakanas siguiente en función de la anterior.
+Cuando se hable del iniicio de la palabra se nececsiará un caracter que indique que es el inicio de la palabra: "<s>"
+Para el fin de palabra se usará "</s>"
+
+Con ambos se hará el conteo: dado uno de los eventos, ¿cuales son los eventos que le siguen? (analogia a una maquina de estados)
+Se calculará una probabilidad condicional para los eventos siguientes dado un evento anterior. (ej: cual es la prob de que luego de un ダ le siga un ライ)
+
+En base a las reglas que tengo validar las palabras para que no ocurran casos como (Personal Computer -> pasocon) y eso extraerlas para no formar parte de diccionarios.
+Clasificar en palabras validas e invalidas.
+Puede darse el caso de que palabras validas sean mal clasificadas, revisarlo!
+
+MODELOS DE BIGRAMAS
+Son dos eventos (silabas). 
+Realizar los conteos. 
+Bigrama depende de unigrama.
+Contar unigramas:
+</s>	5
+<s>	5
+セン	3
+トラル	5
+ニュー	2
+
+TOTAL 20
+TOTAL SIN <s> 15
+
+Contar bigramas (dos eventos consecutivos): 
+<s> セン	3
+<s> ニュー	2
+セン トラル	3
+トラル </s>	5
+ニュー トラル	2
+
+Calcular probabilidades en base a los conteos
+Probabilidades unigramas.
+Se excluye el valor del unigrama inicial (<s> en este caso). 
+</s>		1/3 -> 5/15
+<s>			1/3 -> 5/15
+セン			1/5 -> 3/15
+トラル			1/3 -> 5/15
+ニュー				   2/15
+
+Calcular probabilidades bigramas
+(prob de セン dado <s>)
+<s> セン		0.6		3/5	(hay 5 <s>)
+<s> ニュー		0.4		2/5	(hay 5 <s>)
+セン トラル		1		3/3	(hay 3 セン
+トラル </s>	1		5/5	(hay 5 トラル)
+ニュー トラル	1		2/2	(hay 2 ニュー)
+
+
+
+EL MODELO OCULTO TENDRÁ UN FORMATO -> Dos sílabas de JP con probabilidad:
+Formato para el diccionario (csv) de transiciones (modelo oculto):
+
+Healthy,Healthy,0.7
+Healthy,Fever,0.3
+Fever,Healthy,0.4
+Fever,Fever,0.6
+
+<s>,セン,0.6
+<s>,ニュー,0.4,
+
+En el capa oculta del modelo solo existe s /s y katakanas.
+
+
+>>>>>>>>>>>>>>VECTOR INICIAR
+Da las probabilidades de como puede inciar una cadena  y una palabra.
+Probabilidad de con que katakana se iniciaria.
+De todas las  secuencias katakana de inicio de palabra se debe sacar una nueva probabilidad que será e l vector inicial.
+el  resto de la paalabra se lo maneja cocnn el modelo oculto.
 
 
 >>>>>>>>>>>>>>SIMPLE
@@ -44,6 +213,257 @@ NULL ({ 2 }) `m_ow ({ 1 }) t_er ({ 3 })
 NULL ({ }) `eh_l ({ 1 2 }) | ({ }) `d_iy ({ 3 }) | ({ }) `k_ey ({ 4 }) 
 # Sentence pair (305) source length 5 target length 7 alignment score : 3.23564e-06
 コ ス ト パ フォー マン ス 
-NULL ({ 2 }) `k_aa_s_t ({ 1 3 }) | ({ 5 }) p_er ({ 4 }) `f_ao_r ({ }) m_ax_n_s ({ 6 7 }) 
+NULL ({ 2 }) `k_aa_s_t ({ 1 3 }) | ({ 4 }) p_er ({ }) `f_ao_r ({ 5 }) m_ax_n_s ({ 6 7 }) 
+
+>>>>>>>>>>>>>>>>ALINEADO
+
+# Sentence pair (404) source length 5 target length 5 alignment score : 1.77802e-06
+ダ ラ イ ラ マ 
+NULL ({ }) `d_ae ({ 1 3 }) `l_ey ({ 2 3 }) | ({ }) `l_aa ({ 4 }) m_ax ({ 5 }) 
+# Sentence pair (1) source length 2 target length 4 alignment score : 0.00481252
+セン ト ラ ル 
+NULL ({ }) `s_eh_n ({ 1 }) t_r_ax_l ({ 2 3 4 }) 
+# Sentence pair (2) source length 5 target length 7 alignment score : 6.25419e-05
+セン ト ラ ル ヒー ティン グ 
+NULL ({ }) `s_eh_n ({ 1 }) t_r_ax_l ({ 2 3 4 }) | ({ }) `hh_iy ({ 5 }) t_ax_ng ({ 6 7 }) 
+# Sentence pair (297) source length 2 target length 4 alignment score : 5.07816e-05
+コ ル セッ ト 
+NULL ({ }) `k_ao_r ({ 1 }) s_ax_t ({ 2 3 4 }) 
+# Sentence pair (298) source length 2 target length 3 alignment score : 0.00230558
+コ サ イン 
+NULL ({ }) `k_ow ({ 1 }) `z_iy_n ({ 2 3 }) 
+
+>>>>>>>>>>>>>>>>ERROR ALINEACION FESTIVAL
+
+# Sentence pair (2092) source length 3 target length 5 alignment score : 1.95933e-06
+ナ イ チン ゲー ル 			(nightingale)
+NULL ({ }) `n_ay ({ 1 2 }) t_ax_ng ({ }) g_ey_l ({ 3 4 5 }) 
+# Sentence pair (63) source length 4 target length 8 alignment score : 4.76006e-08
+カ イ ロ プ ラ ク ティッ ク 		(chiropractic)
+NULL ({ 2 }) `k_ay ({ 1 }) r_ow ({ 3 }) `p_r_ae_k ({ 4 5 6 }) t_ax_k ({ 7 8 }) 
+
+>>>>>>>>>>>>>>>>ERROR ALINEACION MANUAL
+
+# Sentence pair (1368) source length 3 target length 6 alignment score : 7.3418e-05
+イン ス ト ラ ク ター 
+NULL ({ }) ih_n ({ 1 }) `s_t_r_ah_k ({ 2 3 4 5 }) t_er ({ 6 }) 
+# Sentence pair (306) source length 2 target length 4 alignment score : 0.00566287
+コ ス チュー ム 
+NULL ({ }) k_aa ({ 1 }) `s_t_uw_m ({ 2 3 4 }) 
+# Sentence pair (1558) source length 2 target length 5 alignment score : 3.57092e-06
+レ イ ア ウ ト 
+NULL ({ }) `l_ey ({ 1 2 }) `aw_t ({ 3 4 5 }) 
+
+>>>>>>>>>>>>>>>>CODIFICACIÓN UTF-8
+
+# Sentence pair (856) source length 3 target length 4 alignment score : 0.0028254
+エ フ エ ム 
+NULL ({ }) `eh_f ({ 1 2 }) | ({ }) `eh_m ({ 3 4 }) 
+
+>>>>>>>>>>>>>>>>GENERACIÓN DICCIONARIOS
+
+# Sentence pair (1) source length 2 target length 4 alignment score : 0.00481252
+セン ト ラ ル 
+NULL ({ }) `s_eh_n ({ 1 }) t_r_ax_l ({ 2 3 4 }) 
+# Sentence pair (2) source length 5 target length 7 alignment score : 6.25419e-05
+セン ト ラ ル ヒー ティン グ 
+NULL ({ }) `s_eh_n ({ 1 }) t_r_ax_l ({ 2 3 4 }) | ({ }) `hh_iy ({ 5 }) t_ax_ng ({ 6 7 }) 
+# Sentence pair (297) source length 2 target length 4 alignment score : 5.07816e-05
+コ ル セッ ト 
+NULL ({ }) `k_ao_r ({ 1 2 }) s_ax_t ({ 3 4 }) 
+# Sentence pair (298) source length 2 target length 3 alignment score : 0.00230558
+コ サ イン 
+NULL ({ }) `k_ow ({ 1 }) `z_iy_n ({ 2 3 }) 
+# Sentence pair (299) source length 3 target length 5 alignment score : 0.00181788
+コ ス メ ティッ ク 
+NULL ({ }) k_aa_z ({ 1 2 }) `m_eh ({ 3 }) t_ax_k_s ({ 4 5 }) 
+# Sentence pair (300) source length 4 target length 6 alignment score : 3.68748e-05
+コ ス モ ポ リ ス 
+NULL ({ }) `k_ao_z ({ 1 2 }) m_ax ({ 3 }) p_ax ({ 4 }) l_ax_s ({ 5 6 }) 
+# Sentence pair (301) source length 5 target length 6 alignment score : 0.000113615
+コ ス モ ポ リ タン 
+NULL ({ }) `k_aa_z ({ 1 2 }) m_ax ({ 3 }) `p_aa ({ 4 }) l_ax ({ 5 }) t_ax_n ({ 6 }) 
+# Sentence pair (302) source length 7 target length 9 alignment score : 5.72292e-06
+コ ス モ ポ リ タ ニ ズ ム 
+NULL ({ }) `k_ao_z ({ 1 2 }) m_ax ({ 3 }) `p_aa ({ 4 }) l_ax ({ 5 }) t_ax ({ 6 }) `n_ih ({ 7 }) z_ax_m ({ 8 9 }) 
+# Sentence pair (303) source length 2 target length 4 alignment score : 0.00705866
+コ ス モ ス 
+NULL ({ }) `k_aa_z ({ 1 2 }) m_ow_s ({ 3 4 }) 
+# Sentence pair (304) source length 1 target length 3 alignment score : 0.0129289
+コ ス ト 
+NULL ({ }) `k_aa_s_t ({ 1 2 3 }) 
+# Sentence pair (305) source length 5 target length 7 alignment score : 3.23564e-06
+コ ス ト パ フォー マン ス 
+NULL ({ }) `k_aa_s_t ({ 1 2 3 }) | ({ }) p_er ({ 4 }) `f_ao_r ({ 5 }) m_ax_n_s ({ 6 7 }) 
+# Sentence pair (306) source length 2 target length 4 alignment score : 0.00566287
+コ ス チュー ム 
+NULL ({ }) k_aa ({ 1 }) `s_t_uw_m ({ 2 3 4 }) 
+# Sentence pair (307) source length 2 target length 3 alignment score : 0.0384434
+コ テー ジ 
+NULL ({ }) `k_aa ({ 1 }) t_ax_jh ({ 2 3 }) 
+# Sentence pair (308) source length 2 target length 2 alignment score : 0.00420474
+コッ トン 
+NULL ({ }) `k_aa ({ 1 }) t_ax_n ({ 2 }) 
 
 
+>>>>>>>>>>>>>>>>EJERCICIO PROBABILIDADES EMISION
+
+<s> l_ax_s リス </s>
+<s> l_ax_s リス </s>
+<s> l_ax_s リス </s>
+<s> l_ax_s レス </s>
+<s> l_ax_s リス </s>
+<s> l_ax_s レス </s>
+<s> l_ax_s レス </s>
+<s> l_ax_s レス </s>
+<s> l_ax_s レス </s>
+<s> l_ax_s レス </s>
+<s> l_ax_s レス </s>
+<s> `n_ih ニ </s>
+<s> `n_ih ニ </s>
+<s> `n_ih ニ </s>
+<s> `n_ih ニ </s>
+<s> `n_ih ニ </s>
+<s> `n_ih ニ </s>
+<s> `n_ih ニ </s>
+<s> `n_ih ニ </s>
+<s> `n_ih ニ </s>
+<s> `n_ih ニ </s>
+<s> `n_ih ニ </s>
+<s> `n_ih ニ </s>
+<s> `n_ih ニ </s>
+<s> `n_ih ニッ </s>
+<s> `n_ih ニッ </s>
+<s> `n_ih ニッ </s>
+<s> `n_ih ニ </s>
+<s> `n_ih ニッ </s>
+<s> `n_ih ニー </s>
+<s> `n_ih ニ </s>
+<s> t_r_ax_l トラル </s>
+<s> t_r_ax_l トラル </s>
+<s> t_r_ax_l トラル </s>
+<s> t_r_ax_l トラル </s>
+<s> t_r_ax_l トラル </s>
+
+
+>>>>>>>>>>>>>>>>PROBABILIDADES ALINEACIÓN
+
+<s> セン トラル </s>
+<s> セン トラル </s>
+<s> ヒー ティング </s>
+<s> コル セット </s>
+<s> コ サイン </s>
+<s> コス メ ティック </s>
+<s> コス モ ポ リス </s>
+<s> コス モ ポ リ タン </s>
+<s> コス モ ポ リ タ ニ ズム </s>
+<s> コス モス </s>
+<s> コスト </s>
+<s> コスト </s>
+<s> パ フォー マンス </s>
+<s> コ スチューム </s>
+<s> コ テージ </s>
+<s> コッ トン </s>
+
+Distribución vector inicial.
+コス 		5/16
+セン 		2/16
+ヒー		1/16
+コル		1/16
+コ		3/16
+コスト		2/16
+パ		1/16
+コッ		1/16
+
+
+
+
+PROBABILIDAD EMISION
+<s>,<s>,1.000
+</s>,</s>,1.000
+`k_ao_r,コル,1.000
+
+VECTOR INICIAL
+En función del diccionario de transición.
+Secuencia de katakanas que puede iniciar una palabra.
+コス 		5/16
+セン 		2/16
+ヒー		1/16
+コル		1/16
+コ		3/16
+コスト		2/16
+パ		1/16
+コッ		1/16
+
+Probabilidad TRANSICIÓN
+Solo existe s /s secuencias de katakanas
+Deterinar secucncia katakana siguiente dada una secuencia anterior.
+500 estados ocultos como mucho
+Mi archivo -> probabilidades_transicion.csv
+
+OBSERVACIONES
+Se necesita un nuevo diccionario. Similar a mi archivo -> katakana-english. cocn nuevavs palabras diferentes.
+Con este sse generan las secuencias fonéticas del inglés.
+Se me devolverá un archihvov solo con las silabas fonéticas del inglés.
+Esto será la entrada para que el simulador logre predecir los katakanas respectivos.
+Las pruebas iniciales permitiran ver que tan acertadas son las predicciones.
+Luego se realiza el bucle (iterativo) de mejora del modelo.
+
+2 MATRICES DEL MODELO INICIAL
+-> Matriz de probabilidades de emisión
+Mapeo entre las sílabas fonéticas del inglés hacia las secuencias katakanas.
+Se realiza en función de las probabilidades de emisión.
+
+-> Matriz de probabilidades de transición
+Se realiza en función de las probabilidades de transición.
+
+
+
+
+
+VALIDACIONES
+<s> s_ax_t セット </s>
+Revisar si el "s" del fonema corresponde a un katakana de la secuencia que esa alineada.
+Esto en función de las consonantes
+Se usa con el archivo del diccionario de emision.
+Separar en palabras validas e inválidas.
+Validacion en función de la palabra completa o compuesta.
+
+personal computer
+
+`p_er~s_ax~n_ax_l | k_ax_m~`p_y_uw~t_er
+パー ソ ナ ル コン ピュー タ 
+
+`p_er 			パー		パ
+s_ax			ソ		ソ
+n_ax_l | 		ナル
+k_ax_m			コン		コン 
+`p_y_uw 		ピュー
+t_er			タ
+
+
+pasokon	
+パソコン
+
+
+animation tool
+`ae~n_ax~`m_ey~sh_ax_n | `t_uw_l
+ア ニ メー ション ソ フ ト
+
+a	`ae	ア
+ni	n_ax	ニ
+ma	`m_ey	メー
+tion	sh_ax_n	ション
+tool	`t_uw_l	ソフト
+
+Ariane Launch Vehicle	
+ア リ アン ロ ケッ ト	
+`eh~r_iy~`ae_n | `l_ao_n_ch | `v_iy~ih~k_ax_l	
+
+A	`eh	ア
+ri	r_iy	リ
+ane	`ae_n	アン
+Launch	`l_ao_n_ch	ロケット
+Veh	`v_iy	
+i	ih	
+cle	k_ax_l	
