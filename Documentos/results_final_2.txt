@@ -1,0 +1,3 @@
+# Sentence pair (2092) source length 3 target length 5 alignment score : 1.95933e-06
+ナ イ チン ゲー ル 
+NULL ({ }) `n_ay ({ 1 2 }) t_ax_ng ({ }) g_ey_l ({ 3 4 5 }) 

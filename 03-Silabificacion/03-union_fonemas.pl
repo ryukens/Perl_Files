@@ -1,4 +1,5 @@
 use warnings;
+no warnings 'utf8';
 use strict;
 use utf8;
 use Encode qw/encode decode/;
@@ -7,9 +8,10 @@ binmode STDOUT, ":utf8";
 binmode STDERR, ":utf8";
 use 5.28.1;
 
+#my $file_in = '..\Documentos\results_test.txt';
 my $file_in = '..\Documentos\results_final.txt';
 my $file_out = '..\Documentos\diccionario_emision.txt';
-my $file_out2 = '..\Documentos\diccionario_alineacion.txt';
+my $file_out2 = '..\Documentos\diccionario_transicion.txt';
 my $linea;
 my @array_jp;
 
@@ -18,8 +20,8 @@ open(FHO, '+>', $file_out) or die $!;
 open(FHO2, '+>', $file_out2) or die $!;
 
 while (<FH>) {
-    #$linea = $_;
     $linea = decode("utf-8", $_);
+    chomp($linea);
     given($linea){        
         when($linea =~ /[|]/){
             
@@ -34,7 +36,7 @@ while (<FH>) {
             }
         }
         when($linea =~ /NULL/ && $linea !~ /[|]/){
-            print "LIST\n";
+            #print "LIST\n";
             $linea =~ s/^NULL \(\{[\s\d]*\}\)//;
             &union($linea,\@array_jp);
         }
@@ -77,9 +79,6 @@ sub union {
     print $linea_og;
     print "\nKATAKANAS\n";
     print @array_katakana;
-        
-    #$linea_og =~ s/^NULL \(\{[\s\d]*\}\)//;
-    #$linea_og =~ s/\|\s(\(\{([\s\d]*)\}\))//;
     
     while ($linea_og =~ /(`?\w*\s\(\{[\s\d]*\}\))/g) {
         push (@array_phoneme, $1);
