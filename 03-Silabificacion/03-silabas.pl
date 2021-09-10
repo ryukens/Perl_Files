@@ -1,4 +1,6 @@
 use warnings;
+no warnings 'utf8';
+no warnings 'experimental';
 use strict;
 use utf8;
 use Encode qw/encode decode/;
@@ -24,7 +26,6 @@ open(FHO, '+>', $file_out) or die $!;
 
 while (<FH>) {
     $linea = decode("utf-8", $_);
-    chomp($linea);
     $orden = $linea;
     given($linea){
         when($linea =~ /[|]/){
@@ -184,7 +185,7 @@ sub reemplazo {
                 print "ENCONTRADO: 10 ".$en_syl_phoneme."\n";
                 $flag = $i;
             }
-            if($en_syl_phoneme =~ /`?[ak]\w*/ && $array_katakana[$i-1] =~ /^ヒ/){
+            if($en_syl_phoneme =~ /`?[fhak]\w*/ && $array_katakana[$i-1] =~ /^ヒ/){
                 print "ENCONTRADO: 11 ".$en_syl_phoneme."\n";
                 $flag = $i;
             }
@@ -248,7 +249,7 @@ sub reemplazo {
                 print "ENCONTRADO: 26 ".$en_syl_phoneme."\n";
                 $flag = $i;
             }
-            if($en_syl_phoneme =~ /`?([zs]|d)\w*/ && $array_katakana[$i-1] =~ /^ザ]/){
+            if($en_syl_phoneme =~ /`?([zsd])\w*/ && $array_katakana[$i-1] =~ /^ザ/){
                 print "ENCONTRADO: 27 ".$en_syl_phoneme."\n";
                 $flag = $i;
             }

@@ -467,3 +467,12 @@ Launch	`l_ao_n_ch	ロケット
 Veh	`v_iy	
 i	ih	
 cle	k_ax_l	
+
+
+
+# Sentence pair (1903) source length 4 target length 4 alignment score : 0.000222436
+ミ ニ チュ ア 
+NULL ({ }) `m_ih ({ 1 }) n_iy ({ 2 }) ax ({ }) `ch_uh_r ({ 3 4 }) 
+# Sentence pair (2037) source length 4 target length 4 alignment score : 0.00214489
+ナ ビ ゲー ター 
+NULL ({ }) `n_ae ({ 1 }) v_ax ({ 2 }) `g_ey ({ 3 }) t_er ({ 4 }) 

@@ -8,8 +8,8 @@ binmode STDOUT, ":utf8";
 binmode STDERR, ":utf8";
 use 5.28.1;
 
-#my $file_in = '..\Documentos\results_test.txt';
-my $file_in = '..\Documentos\results_final.txt';
+my $file_in = '..\Documentos\results_test.txt';
+#my $file_in = '..\Documentos\results_final.txt';
 my $file_out = '..\Documentos\diccionario_emision.txt';
 my $file_out2 = '..\Documentos\diccionario_transicion.txt';
 my $linea;
@@ -105,13 +105,15 @@ sub union {
             print "Secuencia_katakana: $secuencia_katakana\n";
         }
         push (@array_kat_oculto, $secuencia_katakana);
-        #MODELO OBSERVABLE
+        
+        #DICCIONARIO EMISION
         $fonema_katakana = "<s> $fonema $secuencia_katakana </s>\n";
         print "\nSALIDA OBSERVABLE: $fonema_katakana\n";
         print FHO $fonema_katakana;
         
     }
-    #MODELO OCULTO
+    
+    #DICCIONARIO TRANSICION
     $katakana_oculto = "<s>";
     foreach my $secuencia_oculta (@array_kat_oculto){
         $katakana_oculto = "$katakana_oculto ".$secuencia_oculta;
