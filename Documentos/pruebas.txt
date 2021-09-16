@@ -169,7 +169,7 @@ Fever,Fever,0.6
 En el capa oculta del modelo solo existe s /s y katakanas.
 
 
->>>>>>>>>>>>>>VECTOR INICIAR
+>>>>>>>>>>>>>>VECTOR INICIAL
 Da las probabilidades de como puede inciar una cadena  y una palabra.
 Probabilidad de con que katakana se iniciaria.
 De todas las  secuencias katakana de inicio de palabra se debe sacar una nueva probabilidad que será e l vector inicial.
@@ -476,3 +476,46 @@ NULL ({ }) `m_ih ({ 1 }) n_iy ({ 2 }) ax ({ }) `ch_uh_r ({ 3 4 })
 # Sentence pair (2037) source length 4 target length 4 alignment score : 0.00214489
 ナ ビ ゲー ター 
 NULL ({ }) `n_ae ({ 1 }) v_ax ({ 2 }) `g_ey ({ 3 }) t_er ({ 4 }) 
+
+
+
+
+Underflow -> cantidad de digitos en fraccion no es suficiente
+Para evitar eso, se utiliza el  loggaritmo de la probabilidad
+Ya no se multiplicarian los valores de las probabilidades, sino que se suman los vvalores en funcicón del logaritmo.
+Los reesultados estarán por debajo del eje x (negativo) y al  llegar a 0 sería el 100% de probabilidad. Por ende, los valores van a tender hacia el 0.
+trabajar con Logaritmo de base 10
+Preferible hacer primero una resta de logaritmos entre los valores que se dividen porque al ahcerlo con el r esultado  inal puede que non quede nada.
+10 elevado al logaritmo para obtener el valor decimal.
+
+
+
+
+Observaciones con almenos 4000 similar al diccionario de entrenamiento.
+Si se hubiera tenido una data más grande se hubiera divido. 70% 30% de distribución.
+
+Diccionario EDICT2: 
+iconv -f EUC-JP -t UTF-8 edict2 > 
+
+
+
+Simulador HMM:
+http://190.96.111.97/PHP-Auth/login.php
+
+
+po vector inicial
+A -> transicion
+B -> Emision
+Conjunto de observacioness
+
+
+
+
+>>>>>>>>>>>>>>>>REGEX KATAKANA
+Obtenido de: https://regex101.com/r/xhHFs2/1
+https://en.wikipedia.org/wiki/Katakana_(Unicode_block)
+
+Cambiar Timeout en Regex101 para que funcione
+
+^[゠-ー;\(\)\[\]\s\w]*\s*\(.*$
+^[\x{30A0}-\x{30FF};\(\)\[\]\s\w]*\s*\(.*$
