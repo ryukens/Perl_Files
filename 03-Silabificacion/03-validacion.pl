@@ -93,7 +93,7 @@ sub union {
     print "\nKATAKANAS\n";
     print @array_katakana;
     
-    while ($linea_og =~ /(`?\w*\s\(\{[\s\d]*\}\))/g) {
+    while ($linea_og =~ /((\w*~?`?)*\w*\s\(\{[\s\d]*\}\))/g) {
         push (@array_phoneme, $1);
     }
     
@@ -268,7 +268,7 @@ sub validacion {
                     $correcto++;
                     push (@flag, 1);
                 }
-                if($en_syl_phoneme =~ /`?[wv]\w*/ && $sec_katakana =~ /(ワ|ヲ)/){
+                if($en_syl_phoneme =~ /`?([wv]|er)\w*/ && $sec_katakana =~ /(ワ|ヲ)/){
                     print "ENCONTRADO: 25 ".$en_syl_phoneme."\n";
                     $correcto++;
                     push (@flag, 1);

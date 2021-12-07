@@ -305,6 +305,56 @@ NULL ({ }) `k_aa ({ 1 }) t_ax_jh ({ 2 3 })
 コッ トン 
 NULL ({ }) `k_aa ({ 1 }) t_ax_n ({ 2 }) 
 
+>>>>>>>>>>>>>>>>INDEPENDIENTE
+
+# Sentence pair (1) source length 2 target length 4 alignment score : 0.00481252
+セン ト ラ ル 
+NULL ({ }) `s_eh_n ({ 1 }) t_r_ax_l ({ 2 3 4 }) 
+# Sentence pair (308) source length 2 target length 2 alignment score : 0.00420474
+コッ トン 
+NULL ({ }) `k_aa ({ 1 }) t_ax_n ({ 2 }) 
+
+>>>>>>>>>>>>>>>>DE EDICT2 TRAIN
+
+# Sentence pair (1) source length 3 target length 4 alignment score : 8.03033e-05
+レ イ アッ プ 
+NULL ({ }) `l_ey ({ 1 }) - ({ 2 }) `ah_p ({ 3 4 }) 
+# Sentence pair (2) source length 2 target length 2 alignment score : 0.0138487
+フォー チュン 
+NULL ({ }) `f_ao_r ({ 1 }) ch_ax_n ({ 2 }) 
+# Sentence pair (3) source length 4 target length 5 alignment score : 0.000182038
+フ ルー ツ ゼ リー 
+NULL ({ }) `f_r_uw_t ({ 1 2 3 }) | ({ }) `jh_eh ({ 4 }) l_iy ({ 5 }) 
+# Sentence pair (4) source length 5 target length 7 alignment score : 0.000105012
+ビ ブ リ オ グ ラ フィー 
+NULL ({ }) `b_ih ({ 1 }) b_l_iy ({ 2 3 }) `aa ({ 4 }) g_r_ax ({ 5 6 }) f_iy ({ 7 }) 
+# Sentence pair (5) source length 7 target length 8 alignment score : 5.50108e-21
+ナン ヨ ウ ミ ド リ ハ ゼ 
+NULL ({ }) `g_r_iy_n ({ 1 2 3 }) | ({ }) `b_ah ({ 4 }) b_ax_l ({ }) | ({ 5 }) `g_ow ({ 6 7 }) b_iy ({ 8 }) 
+# Sentence pair (6) source length 3 target length 4 alignment score : 3.73933e-09
+ティーン エ イ ジャー 
+NULL ({ 3 }) `t_iy ({ 1 }) `n_ey ({ 2 }) jh_er ({ 4 }) 
+# Sentence pair (7) source length 3 target length 4 alignment score : 0.00127309
+コ ヒー レン ト 
+NULL ({ }) k_ow ({ 1 }) `hh_ih ({ 2 }) r_ax_n_t ({ 3 4 }) 
+# Sentence pair (8) source length 3 target length 5 alignment score : 0.000418605
+バ ス マ ウ ス 
+NULL ({ }) `b_ah_s ({ 1 2 }) | ({ }) `m_aw_s ({ 3 4 5 }) 
+# Sentence pair (9) source length 6 target length 11 alignment score : 2.66774e-21
+ブ ルー アン ド イ エ ロー ク ロ ミ ス 
+NULL ({ }) `l_ih_m ({ 1 }) `b_ao_z ({ 2 3 4 6 7 9 10 }) | ({ }) `d_ae_m ({ }) s_ax_l ({ 8 11 }) `f_ih_sh ({ 5 }) 
+# Sentence pair (10) source length 4 target length 5 alignment score : 0.000297393
+ス チー ム ヒー ター 
+NULL ({ }) `s_t_iy_m ({ 1 2 3 }) | ({ }) `hh_iy ({ 4 }) t_er ({ 5 }) 
+# Sentence pair (11) source length 4 target length 6 alignment score : 9.64652e-05
+サ ポー ト グ ルー プ 
+NULL ({ }) s_ax ({ 1 }) `p_ao_r_t ({ 2 3 }) | ({ }) `g_r_uw_p ({ 4 5 6 }) 
+# Sentence pair (12) source length 3 target length 4 alignment score : 0.00592741
+シ ス ジェン ダー 
+NULL ({ }) s_ih_s ({ 1 2 }) `g_eh_n ({ 3 }) d_er ({ 4 }) 
+# Sentence pair (3647) source length 7 target length 10 alignment score : 1.38701e-06
+サー ビ ス ア ク セ ス ポ イン ト 
+NULL ({ }) `s_er ({ 1 }) v_ax_s ({ 2 3 }) | ({ }) `ae_k ({ 4 5 }) `s_eh_s ({ 6 7 }) | ({ }) `p_oy_n_t ({ 8 9 10 }) 
 
 >>>>>>>>>>>>>>>>EJERCICIO PROBABILIDADES EMISION
 
@@ -519,3 +569,257 @@ Cambiar Timeout en Regex101 para que funcione
 
 ^[゠-ー;\(\)\[\]\s\w]*\s*\(.*$
 ^[\x{30A0}-\x{30FF};\(\)\[\]\s\w]*\s*\(.*$
+
+
+NORMAL
+`s_k_ey,スカ,0.333333
+アー,チェ,0.090909
+
+LOG
+`s_k_ey,スケー,-0.176091
+`s_k_ey,スカ,-0.477121
+
+10^(-0.477121) = 0.333333
+log10 0.3333 = -0.477121
+
+PRUEBA
+Se ejecuta un script para la conversionde rafemas a fofnemas cocn el festival. Se genera un archivo con:
+palabra | separacion palabras | fonemas ingles por palabra
+
+Los - en una palabra sí aparecerá en la sección fonética.
+Los apostrofes -> 's nno genneran un apostrofe onéticoc, se elo trata como una palabra independiente.
+Las comas , también se han añadido peror es sposible descartarlos. Pero si fuese necesario explicitamene la , pues sya se tiene considerada en el aparado fonético.
+
+
+ENTRENAMIENTO
+Con un script se generará el archivo 
+
+
+
+
+Sseparacionn de katakana utilizando regex con la sustitución.
+Usar solo katakanas como data
+
+s/^(.*?)【.*/$1/gm
+s/ //gm
+s/(.)/$1 /gm				-> añade espacio
+s/ $//gm					-> los espaciosen blanco al fifnal se elos elimina
+s/ ([ァィゥェォャュョヮーッン])/$1/gm	-> une los katakanas pequeños con los katakanas anteriores
+
+
+CONSULTAR
+Sandra Bermeo
+Nancy Naranjo
+nancy.naranjo@epn.edu.ec
+
+
+ANILLADOS
+Estos son reevisados por otros docentes.
+
+Seccionens de marco  teorico
+- Fundamentos y teoría del trabajo 
+	
+
+CAP 1 - Introducción
+	Porque se realiza el trabajo, justificarlo.
+	Definir el problema.
+	
+CAP 2 - Marco Teórico
+	->Conversion Grafemas  a fonemas (G2P) (FESTIVAL) Algoritmo CART Decision Trees (Briman 1984) Letter to sound rules automatic.
+	->ALINEACION Secuencia KATAKANAS y Sílabas fonéticas del Inglés: Algoritmo expectation maximixation (GIZA++ -> Para estimar la alineacicón de cadenas) En base a conteos y proabilidad estadística.
+	-> Modelos ocultos de Markov para identificar la secucncia katakana más probable a partir del inglés.
+
+CAP 3 - Metodología Adoptada para tratar el problema. (ELABORACIÓN del modelo)
+	Describir la data.
+	Detalles de la metodología.
+	
+CAP 4 - Experimentación (EVALUACIÓN)
+
+CAP 5 - Resultados de la parte experimental y discusión. (EVALUACIÓN)
+
+CAP 6 - Optimización de resultados (OPTIMIZACIÓN)
+	Solo se realizará luego de un resultado iniicial
+
+CAP 7 - Conclusiones y Trabajos Futuros.
+
+
+La EVALUACIÓN sólo usará la data de prueba y esta jamás será reemplazada.
+
+Ampliación de la data de entrenamiento.
+
+
+
+
+
+
+
+----------------------------------------
+Cap 1. Introducción. Definir el problema. Justificar el porqué del trabajo planteado.
+
+Cap 2. Marco teórico.
+
+2.1 - Algoritmo Expectation Maximization (GIZA++) - Sirve para la alineación entre secuencias de katakanas y sílabas fonéticas del inglés.
+
+2.2 - Grapheme to phoneme conversion = Letter to sound rules (G2P) (Festival) - CART Decision Trees (Briman 1984)
+
+2.3 - Hidden Markov Models - 
+
+Cap. 3 - Metodología adoptada para tratar el problema. Describir la Data. Elaboración de los modelos.
+
+Cap 4. - Experimentación.
+
+Cap 5. - Resultados y discusión de la parte experimental.
+
+Evaluación (Data de prueba- 8 mil registros)
+
+Cap. 6. Optmización de resultados
+
+Cap. 7 Conclusiones y trabajos futuros.
+
+
+----------------------------------------
+
+DESFASADO POR 1 DESDE EL 1338
+
+DESFASADO POR 2 DESDE 5733
+
+
+Ejemplo:
+Archivo 002
+# Sentence pair (12251) source length 1 target length 2 alignment score : 0.133821
+シャッ ト 
+NULL ({ }) `sh_ah_t ({ 1 2 }) 
+
+
+ANALIZAR: ¿por que se duplica? Revisar diccionario/palabras no validas para ver el ejemplo
+spoon-feeding	スプーンフィーディング
+*Posible que el - le haga repetir, validar esto.
+crear estado oculto que represente al -
+
+
+CAMBIOS
+Añadir regex para cadenas que posean ~ pues eso representa la separacion entre sílabas, antes se usaba un espacio en blanco
+ej:
+# Sentence pair (10837) source length 3 target length 8 alignment score : 4.34569e-08
+アッ プ ラ イ ト ピ ア ノ 
+NULL ({ }) ax~`p_r_ay_t ({ 1 2 3 4 5 }) | ({ }) p_iy~`ae~n_ow ({ 6 7 8 }) 
+
+REGEX OG: (`?\w*\s\(\{[\s\d]*\}\))
+REGEX V1: ((\w*~?`?)*\w*\s\(\{[\s\d]*\}\))
+*Se debe mejorar
+
+ANTES
+# Sentence pair (68) source length 2 target length 4 alignment score : 0.00148242
+チョ コ レー ト 
+NULL ({ }) `ch_ao ({ 1 }) k_l_ax_t ({ 2 3 4 }) 
+
+AHORA
+# Sentence pair (3899) source length 1 target length 4 alignment score : 0.000199077
+チョ コ レー ト 
+NULL ({ }) `ch_ao~k_l_ax_t ({ 1 2 3 4 }) 
+
+Preferible reemplazar ~ pues cambia el proceso de alineación con giza, creo que lo empeora.
+
+
+
+ERROR - MEJORAR PRIMER MÉTODO DE SILABIFICACIÓN (03-silabas.pl)
+OG
+	ブルーアンドイエロークロミス /(n) Limbaugh's damselfish (Chromis limbaughi)/blue-and-yellow chromis/EntL2547050/
+CLEAN
+	Limbaugh's damselfish	ブルーアンドイエロークロミス
+FESTIVAL
+	"9=>Limbaugh's damselfish=>Limbaugh's|damselfish=>`l_ih_m~`b_ao_z | `d_ae_m~s_ax_l~`f_ih_sh"
+KATAKANA
+	ブ ルー アン ド イ エ ロー ク ロ ミ ス
+GIZA
+	# Sentence pair (9) source length 3 target length 11 alignment score : 2.37221e-19
+	ブ ルー アン ド イ エ ロー ク ロ ミ ス 
+	NULL ({ }) `l_ih_m~`b_ao_z ({ 1 2 3 4 6 7 8 9 10 }) | ({ }) `d_ae_m~s_ax_l~`f_ih_sh ({ 5 11 }) 
+*Está incorrecto el orden pues el 5 no está bien ubicado
+
+DICCIONARIO EMISION
+	<s> `l_ih_m~`b_ao_z ブルーアンドエロークロブス </s>
+	<s> `d_ae_m~s_ax_l~`f_ih_sh イブブ </s>
+*Debido a que el primer fonema tiene un indice 10, toma al katakana 1 y 0 en lugar del 10.
+*Debido a que el segundo fonema tiene 5 y 11 como indices, se genera mal la secuencia katakana. 
+
+VALIDACION
+*1)Añadir una validación entre cantidad de katakanas de la secuencia y cantidad de reglas encontradas.
+*2)En este ejemplo el primer fonema tiene 9 índices pero solo 6 reglas se cumplen. Sin embargo, se cumplen reglas en posiciones incorrectas, ej: 
+	`l_ih_m~`b_ao_z -> ブルーアンドエロークロブス
+	ENCONTRADO: 6 `l_ih_m~`b_ao_z
+	*Según la regla 6: (if($en_syl_phoneme =~ /`?[bv]\w*/ && $sec_katakana =~ /(バ|ビ|ブ|ベ|ボ)/)) se cumple que existe "b" y "ブ" pero a simple vista se nota que están en lugares diferentes. "b" está en la mitad del fonema,  y "ブ" está al inicio de la secuencia.
+	*Con esto en mente, puede darse el caso en que sí haya igual número de katakanas y de reglas (*1) con lo que se validaría la palabra, pero el orden es erróneo así que debería ser invalidada (¿como mejorar? ¿cómo saber qué elegir del fonema para validarlo con el katakana? ¿posición, problema elección?).
+	
+
+--------------------
+
+
+
+A es amtriz cuadrada
+B non lo es, son dos dimensiioens (N)
+
+B
+EMISION
+-99 es el valor minimo en log
+<s>,<s>,0.000000
+<s>,ウオール,-99
+
+
+
+</s>,</s>,0.000000
+`w_ao_l,ウオール,0.000000
+
+y asi con todas las demás
+
+A
+TRANSICION DENTRO DEL OMDELO OCULTO
+エージ,</s>,0.000000
+エージ,フェイク,-99
+エージ,フェン,-99
+
+y asi con todas las demás
+
+
+
+dado unas observaciones, cogiera el cartesiano de las posibles transformacicones de las cadena iningles que se está usando.
+
+
+
+--------------------
+
+Asignatura Aprendize de Maquina
+
+Unidad 1 - Programación en perl (todos los miércoles)
+Lunes de 14 a 16
+Miércoles de 14 - 17
+En el enlace de siempre -> https://meet.google.com/cpb-fywp-hnh
+
+PARTE DE PRUEBAS
+
+en viterbi.pm se guardará un archivo para instalar y se tendrá acceso al  código de la librería.
+
+https://metacpan.org/pod/Algorithm::Viterbi 
+devolvera la cadena más probable dadas las observaciones, las siilabas de eingles será la entrada. Para cada palabra del ingles con pocasa sílabas trabajar direcamene cocn la palabra.
+
+Entender la librería, alimentarlo en uncipon de mis archivos del mismo nombre.
+
+observacion=> "s secuenciasilabas /s"
+
+data de prueba 
+
+my v# = algorin::vierbbbi >new solo se cara una vez, lo oros tres lineas de abajo se puede hacer de manera iteraiva en un for.
+
+Es probable que palaras coras sean mal alineadas por cosas del modelo.
+
+El bigrama depende de dos silabas y es posible que no exista la combinación. No va a ser suficiente. O puede que el modelo tenga una estimación insuficicente. Tal vez se necesite la sílaba anterior o la siguiente para que la estimación sea mucho mejor.
+
+por un lado es bueno que una silaba del ingles tenga una secuencia katakana grande, pues se tendrá más contexo, hay menos variaciones y una secuencica más directa. Pero por otro lado es malo porque en casos de silaas pequeñas o de sílabas que no se encuenren prersenes en el modelo se estaría obteniendo una secuencia katakana errónea. 
+
+Discusión de si es mejor un modelo por biramas o un modelo en unción de las letras de las palabras. (DEFENSA) ¿Por que se eligieron sílabas en lugar de letras?. Entender porque se ha elegido.
+
+
+
+
+
+

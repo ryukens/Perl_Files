@@ -14,6 +14,7 @@ my $file_in = '..\Documentos\diccionario_emision.txt';
 my $file_out = '..\Documentos\simulador\probabilidades_emision.csv';
 my %unigrama;
 my @uni_valores;
+my @uni_katakanas;
 my %unigrama_prob;
 my %bigrama;
 my %bigrama_prob;
@@ -46,7 +47,7 @@ while (<FH>) {
             }
             #print "uni: $uni valor: $unigrama{$uni}\n";
         }
-    }
+    }    
     
     #BIGRAMAS    
     for (my $a = 0; $a < $tamano_linea; $a++ ){
@@ -57,19 +58,46 @@ while (<FH>) {
             }else{
                 $bigrama{$array_linea[$a]}{$array_linea[$b]} = 1;
             }
+            
+            #ARRAY KATAKANAS
+            #print "kat = $array_linea[$b]\n";
+            if (!grep (/^$array_linea[$b]$/, @uni_katakanas)) {
+                push (@uni_katakanas, $array_linea[$b]);
+                #print "INGRESADO\n";
+            }
             #print "a: $a b: $b tamano_linea: $tamano_linea\n";
             #print "bi: $array_linea[$a] / $array_linea[$b] valor: $bigrama{$array_linea[$a]}{$array_linea[$b]}\n\n";
-        }            
+        }        
+    }
+    
+}
+
+push (@uni_katakanas, "<s>");
+push (@uni_katakanas, "</s>");
+$bigrama{"<s>"}{"<s>"} = 1;
+$bigrama{"</s>"}{"</s>"} = 1;
+
+print ">>>>>>>>>>>>>>>>>>>>> UNIGRAMAS >>>>>>>>>>>>>>>>>>>>>\n";
+@uni_valores = values %unigrama;
+foreach my $valor (@uni_valores){
+    $total = $total + $valor;
+}
+print "TOTAL: $total\n";
+
+my $cant = %bigrama;
+print "cantidad bigramas = $cant\n";
+my $cant_kat = @uni_katakanas;
+print "cantidad katakanas = $cant_kat\n";
+
+foreach $llave_1 (keys %bigrama){      
+    foreach $llave_2 (@uni_katakanas){
+        #print "llave2: $llave_2 \n";
+        if (!exists $bigrama{$llave_1}{$llave_2}) {
+            $bigrama{$llave_1}{$llave_2} = -99;
+        }
     }
 }
 
-#print ">>>>>>>>>>>>>>>>>>>>> UNIGRAMAS >>>>>>>>>>>>>>>>>>>>>\n";
-#@uni_valores = values %unigrama;
-#foreach my $valor (@uni_valores){
-#    $total = $total + $valor;
-#}
-#print "TOTAL: $total\n";
-#
 #print "\n>>>>>>>>>>>>>>>>>>>>> UNIGRAMA_PROB >>>>>>>>>>>>>>>>>>>>>\n";
 #foreach $llave_1 (keys %unigrama){
 #    print "$llave_1 = $unigrama{$llave_1}\n";
@@ -83,18 +111,31 @@ while (<FH>) {
 print "\n>>>>>>>>>>>>>>>>>>>>> BIGRAMAS >>>>>>>>>>>>>>>>>>>>>\n";
 foreach $llave_1 (keys %bigrama){
     foreach $llave_2 (keys %{$bigrama{$llave_1}}){
-        print "$llave_1 / $llave_2 = $bigrama{$llave_1}{$llave_2}\n";
-        $bigrama_prob{$llave_1}{$llave_2} = $bigrama{$llave_1}{$llave_2}/$unigrama{$llave_1};
+        #print "$llave_1 / $llave_2 = $bigrama{$llave_1}{$llave_2}\n";
+        if ($bigrama{$llave_1}{$llave_2} == -99) {
+            $bigrama_prob{$llave_1}{$llave_2} = -99;
+        }else{
+            if ($llave_1 eq "<s>" || $llave_1 eq "</s>" ) {
+                $bigrama_prob{$llave_1}{$llave_2} = 0;
+            }else{
+                my $numerador = &log_base_n(10, $bigrama{$llave_1}{$llave_2});
+                my $denominador = &log_base_n(10, $unigrama{$llave_1});
+                $bigrama_prob{$llave_1}{$llave_2} = $numerador - $denominador;
+                
+                #$bigrama_prob{$llave_1}{$llave_2} = $bigrama{$llave_1}{$llave_2}/$unigrama{$llave_1};
+            }
+        }
     }
 }
 
-print FHO "<s>,<s>,1.000000\n";
-print FHO "</s>,</s>,1.000000\n";
+#LOGARITMICO
+#print FHO "<s>,<s>,0.000000\n";
+#print FHO "</s>,</s>,0.000000\n";
 
 print "\n>>>>>>>>>>>>>>>>>>>>> BIGRAMA_PROB >>>>>>>>>>>>>>>>>>>>>\n";
 foreach $llave_1 (keys %bigrama_prob){
     foreach $llave_2 (keys %{$bigrama{$llave_1}}){
-        print "$llave_1 / $llave_2 = $bigrama_prob{$llave_1}{$llave_2}\n"; 
+        #print "$llave_1 / $llave_2 = $bigrama_prob{$llave_1}{$llave_2}\n"; 
         my $st = sprintf ("%s,%s,%.6f\n", $llave_1,$llave_2,$bigrama_prob{$llave_1}{$llave_2});
         print FHO $st;
     }
@@ -103,3 +144,9 @@ foreach $llave_1 (keys %bigrama_prob){
 
 close (FH);
 close (FHO);
+
+
+sub log_base_n {
+    my ($base, $n) = @_;
+    return log($n)/log($base)
+}
