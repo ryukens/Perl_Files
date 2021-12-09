@@ -576,11 +576,19 @@ NORMAL
 アー,チェ,0.090909
 
 LOG
-`s_k_ey,スケー,-0.176091
+`s_k_ey,スカ,-0.47712
+アー,チェ,-1.041393
+
+LOG Base 10
 `s_k_ey,スカ,-0.477121
+アー,チェ,-1.041393
 
 10^(-0.477121) = 0.333333
 log10 0.3333 = -0.477121
+
+log(0.333333*0.090909) = log(0.333333) + log(0.090909)
+log(0.030303) = -0.477121 + (-1.041393)
+-1.518514 = -1.518514
 
 PRUEBA
 Se ejecuta un script para la conversionde rafemas a fofnemas cocn el festival. Se genera un archivo con:

@@ -4,7 +4,7 @@ use strict;
 use 5.28.1;
 
  
-my $start_probability = { 'Rainy'=> 0.6, 'Sunny'=> 0.4 };
+my $start_probability = { 'Rainy'=> 0.62, 'Sunny'=> 0.38 };
  
 my $transition_probability = {
  'Rainy' => {'Rainy'=> 0.7, 'Sunny'=> 0.3},
@@ -12,8 +12,8 @@ my $transition_probability = {
 };
  
 my $emission_probability = {
-  'shop' =>  { 'Sunny' => '0.3', 'Rainy' => '0.4' },
-  'walk' =>  { 'Sunny' => '0.6', 'Rainy' => '0.1' },
+  'shop' =>  { 'Sunny' => '0.24', 'Rainy' => '0.41' },
+  'walk' =>  { 'Sunny' => '0.65', 'Rainy' => '0.09' },
   'clean' => { 'Sunny' => '0.1', 'Rainy' => '0.5' }
 };
  

@@ -1,4 +1,4 @@
-use Algorithm::Viterbi;
+use Algorithm::ViterbiLog;
 use Data::Dumper;
 use strict;
 use 5.28.1;
@@ -47,14 +47,14 @@ while (<FHT>) {
 
 #################### VITERBI ####################
 
-print "\nDumper Vector Inicial\n";
-print Dumper(\%vector_inicial);
-
-print "\nDumper Probabilidad Emision\n";
-print Dumper(\%probabilidad_emision);
-
-print "\nDumper Probabilidad Transicion\n";
-print Dumper(\%probabilidad_transicion);
+#print "\nDumper Vector Inicial\n";
+#print Dumper(\%vector_inicial);
+#
+#print "\nDumper Probabilidad Emision\n";
+#print Dumper(\%probabilidad_emision);
+#
+#print "\nDumper Probabilidad Transicion\n";
+#print Dumper(\%probabilidad_transicion);
 
 
 my $v = Algorithm::Viterbi->new();
@@ -64,6 +64,8 @@ $v->emission(\%probabilidad_emision);
 
  
 my $observations = [ '<s>', '`s_eh_n', 't_r_ax_l', '</s>' ];
+#my $observations = [ '<s>', '`s_eh_n'];
+#my $observations = [ '<s>'];
 
 print "\nDumper Forward Viterbi\n";
 print Dumper ($v->forward_viterbi($observations));

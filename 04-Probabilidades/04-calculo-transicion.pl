@@ -7,6 +7,7 @@ use Encode qw/encode decode/;
 use Config;
 binmode STDOUT, ":utf8";
 binmode STDERR, ":utf8";
+use Data::Dumper;
 use 5.28.1;
 
 #my $file_in = '..\Documentos\results_test.txt';
@@ -75,6 +76,20 @@ my $cant = %unigrama;
 print "cantidad unigramas = $cant\n";
 
 foreach $llave_1 (keys %unigrama){
+    print "unigrama: $llave_1 valor: $unigrama{$llave_1}\n";
+    if ($llave_1 eq "<s>") {
+        $vector_inicial{$llave_1} = 0;
+    }else{
+        $vector_inicial{$llave_1} = -99;    
+    }    
+}
+
+#if ($llave_1 eq "<s>") {
+#    $vector_inicial{$llave_2} = $bigrama_prob{$llave_1}{$llave_2};
+#}
+
+
+foreach $llave_1 (keys %unigrama){
     foreach $llave_2 (keys %unigrama){        
         if (!exists $bigrama{$llave_1}{$llave_2}) {
             $bigrama{$llave_1}{$llave_2} = -99;
@@ -100,9 +115,9 @@ foreach $llave_1 (keys %bigrama){
             $bigrama_prob{$llave_1}{$llave_2} = $numerador - $denominador;
             
             #VECTOR INICIAL
-            if ($llave_1 eq "<s>") {
-                $vector_inicial{$llave_2} = $bigrama_prob{$llave_1}{$llave_2};
-            }
+            #if ($llave_1 eq "<s>") {
+            #    $vector_inicial{$llave_2} = $bigrama_prob{$llave_1}{$llave_2};
+            #}
             
             #$bigrama_prob{$llave_1}{$llave_2} = $bigrama{$llave_1}{$llave_2}/$unigrama{$llave_1};
         }
