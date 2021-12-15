@@ -71,6 +71,7 @@ here. Reading it may clarify the documentation below.
 
 use strict;
 use warnings;
+use Data::Dumper;
 
 =head1 METHODS
 
@@ -384,29 +385,54 @@ sub forward_viterbi
 
   foreach my $output (@$observation) {
     my $U = { };
-    foreach my $next_state (@{$self->{states}}) {
-      my $total = 0;
-      my $argmax = [ ];
-      my $valmax = 0;
-      foreach my $state (@{$self->{states}}) {
-	my ($prob, $v_path, $v_prob) = @{$T->{$state}};
+	print "\n***************************************FOR OUTPUT <$output>\n";
+    
+	foreach my $next_state (@{$self->{states}}) {
+		print "\n.....................................FOR NEXT STATE <$next_state>\n";
+		  
+		my $total = 0;
+		my $argmax = [ ];
+		my $valmax = 0;
+		foreach my $state (@{$self->{states}}) {
+			my ($prob, $v_path, $v_prob) = @{$T->{$state}};
 
-	my $e = $self->get_emission($output, $state);
-	my $t = $self->get_transition($state, $next_state);
+			my $e = $self->get_emission($output, $state);
+			my $t = $self->get_transition($state, $next_state);
+			
+			print "\nINICIO*****************************\n";
+			print "prob: $prob \n";
+			print "v_prob: $v_prob \n";
+			print "total: $total \n";
+			print "valmax: $valmax \n";
 
-	my $p = $e * $t;
-	$prob *= $p;
-	$v_prob *= $p;
-	$total += $prob;
+			my $p = $e * $t;
+			$prob *= $p;
+			$v_prob *= $p;
+			$total += $prob;
 
-	if ($v_prob > $valmax) {
-	  $argmax = [ @$v_path, $next_state ];
-	  $valmax = $v_prob;
-	}
+			if ($v_prob > $valmax) {
+			  $argmax = [ @$v_path, $next_state ];
+			  $valmax = $v_prob;
+			  print ">>>>>>>>>>>CAMBIA VALMAX\n";
+			}
+			
+			print "VALORES-----------------------------\n";
+			print "output: $output \n";
+			print "state: $state \n";
+			print "next_state: $next_state \n";
+			print "e: $e \n";
+			print "t: $t \n";
+			print "p: $p \n";
+			print "prob: $prob \n";
+			print "v_prob: $v_prob \n";
+			print "total: $total \n";
+			print "valmax: $valmax \n";
+			
       }
       $U->{$next_state} = [ $total, $argmax, $valmax ];
     }
     $T = $U;
+	print Dumper($U);
   }
 
   ## apply sum/max to the final states

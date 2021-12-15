@@ -1,0 +1,417 @@
+my $start_probability = { 'Rainy'=> 0.62, 'Sunny'=> 0.38 };
+ 
+my $transition_probability = {
+ 'Rainy' => {'Rainy'=> 0.7, 'Sunny'=> 0.3},
+ 'Sunny' => {'Rainy'=> 0.4, 'Sunny'=> 0.6},
+};
+ 
+my $emission_probability = {
+  'shop' =>  { 'Sunny' => '0.24', 'Rainy' => '0.41' },
+  'walk' =>  { 'Sunny' => '0.65', 'Rainy' => '0.09' },
+  'clean' => { 'Sunny' => '0.1', 'Rainy' => '0.5' }
+};
+
+INICIO************WALK SUNNY SUNNY*****************
+prob: 0.38 
+v_prob: 0.38 
+total: 0 
+VALORES-----------------------------
+output: walk 
+state: Sunny 
+next_state: Sunny 
+e: 0.65 
+t: 0.6 
+valmax: 0 
+p: 0.39 		(e*t)(0.65*0.6)
+prob: 0.1482 	(prob*p)(0.38*0.39)
+v_prob: 0.1482 	(v_prob*p)(0.38*0.39)
+total: 0.1482 	(total+prob)(0+0.1482)
+
+INICIO*********WALK RAINY SUNNY********************
+prob: 0.62 
+v_prob: 0.62 
+total: 0.1482 
+VALORES-----------------------------
+output: walk 
+state: Rainy 
+next_state: Sunny 
+e: 0.09 
+t: 0.3 
+valmax: 0.1482 
+p: 0.027 
+prob: 0.01674 
+v_prob: 0.01674 
+total: 0.16494 
+
+INICIO***********WALK SUNNY RAINY******************
+prob: 0.38 
+v_prob: 0.38 
+total: 0 
+VALORES-----------------------------
+output: walk 
+state: Sunny 
+next_state: Rainy 
+e: 0.65 
+t: 0.4 
+valmax: 0 
+p: 0.26 
+prob: 0.0988 
+v_prob: 0.0988 
+total: 0.0988 
+
+INICIO**********WALK RAINY RAINY*******************
+prob: 0.62 
+v_prob: 0.62 
+total: 0.0988 
+VALORES-----------------------------
+output: walk 
+state: Rainy 
+next_state: Rainy 
+e: 0.09 
+t: 0.7 
+valmax: 0.0988 
+p: 0.063 
+prob: 0.03906 
+v_prob: 0.03906 
+total: 0.13786
+
+
+
+
+
+
+
+
+
+
+
+TRANSICION INCOMPLETA
+Dumper Forward Viterbi
+$VAR1 = '-4731546705.39892';
+$VAR2 = [
+          '<s>',
+          'セン',
+          'トラル',
+          '</s>',
+          'テージ'
+        ];
+$VAR3 = '-0.90309';
+
+TRANSICION COMPLETA
+Dumper Forward Viterbi
+$VAR1 = '-7104061707.39893';
+$VAR2 = [
+          '<s>',
+          'セン',
+          'トラル',
+          '</s>',
+          'テージ'
+        ];
+$VAR3 = '-99.90309';
+
+
+
+
+
+
+
+
+
+***************************************FOR OUTPUT <walk>
+
+.....................................FOR NEX STATE <Sunny>
+
+INICIO*****************************
+prob: 0.38 
+v_prob: 0.38 
+total: 0 
+valmax: 0 
+>>>>>>>>>>>CAMBIA VALMAX
+VALORES-----------------------------
+output: walk 
+state: Sunny 
+next_state: Sunny 
+e: 0.65 
+t: 0.6 
+p: 0.39 
+prob: 0.1482 
+v_prob: 0.1482 
+total: 0.1482 
+valmax: 0.1482 
+
+INICIO*****************************
+prob: 0.62 
+v_prob: 0.62 
+total: 0.1482 
+valmax: 0.1482 
+VALORES-----------------------------
+output: walk 
+state: Rainy 
+next_state: Sunny 
+e: 0.09 
+t: 0.3 
+p: 0.027 
+prob: 0.01674 
+v_prob: 0.01674 
+total: 0.16494 
+valmax: 0.1482 
+
+.....................................FOR NEX STATE <Rainy>
+
+INICIO*****************************
+prob: 0.38 
+v_prob: 0.38 
+total: 0 
+valmax: 0 
+>>>>>>>>>>>CAMBIA VALMAX
+VALORES-----------------------------
+output: walk 
+state: Sunny 
+next_state: Rainy 
+e: 0.65 
+t: 0.4 
+p: 0.26 
+prob: 0.0988 
+v_prob: 0.0988 
+total: 0.0988 
+valmax: 0.0988 
+
+INICIO*****************************
+prob: 0.62 
+v_prob: 0.62 
+total: 0.0988 
+valmax: 0.0988 
+VALORES-----------------------------
+output: walk 
+state: Rainy 
+next_state: Rainy 
+e: 0.09 
+t: 0.7 
+p: 0.063 
+prob: 0.03906 
+v_prob: 0.03906 
+total: 0.13786 
+valmax: 0.0988 
+$VAR1 = {
+          'Rainy' => [
+                       '0.13786',
+                       [
+                         'Sunny',
+                         'Rainy'
+                       ],
+                       '0.0988'
+                     ],
+          'Sunny' => [
+                       '0.16494',
+                       [
+                         'Sunny',
+                         'Sunny'
+                       ],
+                       '0.1482'
+                     ]
+        };
+
+***************************************FOR OUTPUT <shop>
+
+.....................................FOR NEX STATE <Sunny>
+
+INICIO*****************************
+prob: 0.16494 
+v_prob: 0.1482 
+total: 0 
+valmax: 0 
+>>>>>>>>>>>CAMBIA VALMAX
+VALORES-----------------------------
+output: shop 
+state: Sunny 
+next_state: Sunny 
+e: 0.24 
+t: 0.6 
+p: 0.144 
+prob: 0.02375136 
+v_prob: 0.0213408 
+total: 0.02375136 
+valmax: 0.0213408 
+
+INICIO*****************************
+prob: 0.13786 
+v_prob: 0.0988 
+total: 0.02375136 
+valmax: 0.0213408 
+VALORES-----------------------------
+output: shop 
+state: Rainy 
+next_state: Sunny 
+e: 0.41 
+t: 0.3 
+p: 0.123 
+prob: 0.01695678 
+v_prob: 0.0121524 
+total: 0.04070814 
+valmax: 0.0213408 
+
+.....................................FOR NEX STATE <Rainy>
+
+INICIO*****************************
+prob: 0.16494 
+v_prob: 0.1482 
+total: 0 
+valmax: 0 
+>>>>>>>>>>>CAMBIA VALMAX
+VALORES-----------------------------
+output: shop 
+state: Sunny 
+next_state: Rainy 
+e: 0.24 
+t: 0.4 
+p: 0.096 
+prob: 0.01583424 
+v_prob: 0.0142272 
+total: 0.01583424 
+valmax: 0.0142272 
+
+INICIO*****************************
+prob: 0.13786 
+v_prob: 0.0988 
+total: 0.01583424 
+valmax: 0.0142272 
+>>>>>>>>>>>CAMBIA VALMAX
+VALORES-----------------------------
+output: shop 
+state: Rainy 
+next_state: Rainy 
+e: 0.41 
+t: 0.7 
+p: 0.287 
+prob: 0.03956582 
+v_prob: 0.0283556 
+total: 0.05540006 
+valmax: 0.0283556 
+$VAR1 = {
+          'Sunny' => [
+                       '0.04070814',
+                       [
+                         'Sunny',
+                         'Sunny',
+                         'Sunny'
+                       ],
+                       '0.0213408'
+                     ],
+          'Rainy' => [
+                       '0.05540006',
+                       [
+                         'Sunny',
+                         'Rainy',
+                         'Rainy'
+                       ],
+                       '0.0283556'
+                     ]
+        };
+
+***************************************FOR OUTPUT <clean>
+
+.....................................FOR NEX STATE <Sunny>
+
+INICIO*****************************
+prob: 0.04070814 
+v_prob: 0.0213408 
+total: 0 
+valmax: 0 
+>>>>>>>>>>>CAMBIA VALMAX
+VALORES-----------------------------
+output: clean 
+state: Sunny 
+next_state: Sunny 
+e: 0.1 
+t: 0.6 
+p: 0.06 
+prob: 0.0024424884 
+v_prob: 0.001280448 
+total: 0.0024424884 
+valmax: 0.001280448 
+
+INICIO*****************************
+prob: 0.05540006 
+v_prob: 0.0283556 
+total: 0.0024424884 
+valmax: 0.001280448 
+>>>>>>>>>>>CAMBIA VALMAX
+VALORES-----------------------------
+output: clean 
+state: Rainy 
+next_state: Sunny 
+e: 0.5 
+t: 0.3 
+p: 0.15 
+prob: 0.008310009 
+v_prob: 0.00425334 
+total: 0.0107524974 
+valmax: 0.00425334 
+
+.....................................FOR NEX STATE <Rainy>
+
+INICIO*****************************
+prob: 0.04070814 
+v_prob: 0.0213408 
+total: 0 
+valmax: 0 
+>>>>>>>>>>>CAMBIA VALMAX
+VALORES-----------------------------
+output: clean 
+state: Sunny 
+next_state: Rainy 
+e: 0.1 
+t: 0.4 
+p: 0.04 
+prob: 0.0016283256 
+v_prob: 0.000853632 
+total: 0.0016283256 
+valmax: 0.000853632 
+
+INICIO*****************************
+prob: 0.05540006 
+v_prob: 0.0283556 
+total: 0.0016283256 
+valmax: 0.000853632 
+>>>>>>>>>>>CAMBIA VALMAX
+VALORES-----------------------------
+output: clean 
+state: Rainy 
+next_state: Rainy 
+e: 0.5 
+t: 0.7 
+p: 0.35 
+prob: 0.019390021 
+v_prob: 0.00992446 
+total: 0.0210183466 
+valmax: 0.00992446 
+$VAR1 = {
+          'Sunny' => [
+                       '0.0107524974',
+                       [
+                         'Sunny',
+                         'Rainy',
+                         'Rainy',
+                         'Sunny'
+                       ],
+                       '0.00425334'
+                     ],
+          'Rainy' => [
+                       '0.0210183466',
+                       [
+                         'Sunny',
+                         'Rainy',
+                         'Rainy',
+                         'Rainy'
+                       ],
+                       '0.00992446'
+                     ]
+        };
+$VAR1 = '0.031770844';		log: -1.4979
+$VAR2 = [
+          'Sunny',
+          'Rainy',
+          'Rainy',
+          'Rainy'
+        ];
+$VAR3 = '0.00992446';		log: -2.0033

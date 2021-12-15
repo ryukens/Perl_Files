@@ -824,10 +824,9 @@ El bigrama depende de dos silabas y es posible que no exista la combinación. No
 
 por un lado es bueno que una silaba del ingles tenga una secuencia katakana grande, pues se tendrá más contexo, hay menos variaciones y una secuencica más directa. Pero por otro lado es malo porque en casos de silaas pequeñas o de sílabas que no se encuenren prersenes en el modelo se estaría obteniendo una secuencia katakana errónea. 
 
-Discusión de si es mejor un modelo por biramas o un modelo en unción de las letras de las palabras. (DEFENSA) ¿Por que se eligieron sílabas en lugar de letras?. Entender porque se ha elegido.
+Discusión de si es mejor un modelo por biramas o un modelo en función de las letras de las palabras. (DEFENSA) ¿Por que se eligieron sílabas en lugar de letras?. Entender porque se ha elegido.
 
 
+Revisar el calculo parar obtener el valor maximo de la probabilidad, posiblemente en alguna parte del código se mantuvieron las multiplicaciones.
 
-
-
-
+Probar si es factible trabajar con matriz de transicion incompleta, ver no en ufnciónn de la cantidad de datoos, sino en unción de los calculos (ver que los calculos son correctos al trabajar commpleto o incompleto) Revisar los CALCULOS.

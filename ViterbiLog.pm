@@ -5,7 +5,7 @@
 package Algorithm::Viterbi;
 
 use vars qw/$VERSION/;
-$VERSION = '0.01.01';
+$VERSION = '0.01.log';
 
 =head1 NAME
 
@@ -387,11 +387,11 @@ sub forward_viterbi
     my $U = { };
 	print "\n***************************************FOR OUTPUT <$output>\n";
     foreach my $next_state (@{$self->{states}}) {
-	  print "\n.....................................FOR NEX STATE <$next_state>\n";
-      my $total = 0;
-      my $argmax = [ ];
+	  print "\n.....................................FOR NEXT STATE <$next_state>\n";
       
-	#  my $valmax = 0;
+	  my $total = 0;
+      my $argmax = [ ];
+    #  my $valmax = 0;
 	  
 	  my $valmax = -200;
 	  
@@ -405,6 +405,7 @@ sub forward_viterbi
 		print "prob: $prob \n";
 		print "v_prob: $v_prob \n";
 		print "total: $total \n";
+		print "valmax: $valmax \n";
 
 	#	my $p = $e * $t;
 	#	$prob *= $p;
@@ -414,7 +415,13 @@ sub forward_viterbi
 		my $p = $e + $t;
 		$prob += $p;
 		$v_prob += $p;
-		$total += $prob;
+		$total += exp_base_n(10, $prob);
+		
+		if ($v_prob > $valmax) {
+		  $argmax = [ @$v_path, $next_state ];
+		  $valmax = $v_prob;
+		  print ">>>>>>>>>>>CAMBIA VALMAX\n";
+		}
 		
 		print "VALORES-----------------------------\n";
 		print "output: $output \n";
@@ -422,17 +429,14 @@ sub forward_viterbi
 		print "next_state: $next_state \n";
 		print "e: $e \n";
 		print "t: $t \n";
-		print "valmax: $valmax \n";
 		print "p: $p \n";
 		print "prob: $prob \n";
 		print "v_prob: $v_prob \n";
 		print "total: $total \n";
+		print "valmax: $valmax \n";
 
-		if ($v_prob > $valmax) {
-		  $argmax = [ @$v_path, $next_state ];
-		  $valmax = $v_prob;
-		}
       }
+	  $total = log_base_n(10, $total);
       $U->{$next_state} = [ $total, $argmax, $valmax ];
     }
     $T = $U;
@@ -445,12 +449,13 @@ sub forward_viterbi
   my $valmax = -200;
   foreach my $state (@{$self->{states}}) {
     my ($prob, $v_path, $v_prob) = @{$T->{$state}};
-    $total += $prob;
+    $total += exp_base_n(10, $prob);
     if ($v_prob > $valmax) {
       $argmax = $v_path;
       $valmax = $v_prob;
     }
   }
+  $total = log_base_n(10, $total);
   return ($total, $argmax, $valmax);
 }
 
@@ -518,14 +523,14 @@ sub get_emission
 {
   my ($self, $output, $state) = @_;
 
-  my $e = 0;
+  my $e = -99;
   if (defined($self->{emission}{$output})){
     if (defined($self->{emission}{$output}{$state})){
       $e = $self->{emission}{$output}{$state};
     }
     else {
       #output exists, but not for this state
-      $e = 0;
+      $e = -99;
     }
   }
   else {
@@ -608,6 +613,16 @@ sub get_transition
   return $t;
 }
 
+sub log_base_n {
+    my ($base, $n) = @_;
+    return log($n)/log($base);
+}
+
+sub exp_base_n {
+    my ($base, $n) = @_;
+	return $base**$n;
+}
+
 =head1 AUTHOR
 
 Koen Dejonghe 	koen@fietsoverland.com
@@ -615,9 +630,13 @@ Copyright (c) 2006 Koen Dejonghe. All rights reserved.
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
+=head1 MODIFICATION
+Juan José Morales	jjmoralesb98@outlook.com
+Modified to work with logarithms
+
 =head1 VERSION
 
-Version 0.01 (2006-Nov-07)
+Version 0.01.log (2021-Dec-14)
 
 =cut
 
