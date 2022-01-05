@@ -61,16 +61,16 @@ my $v = Algorithm::Viterbi->new();
 $v->start(\%vector_inicial);
 $v->transition(\%probabilidad_transicion);
 $v->emission(\%probabilidad_emision);
-$v->{unknown_emission_prob} = -99;
+#$v->{unknown_emission_prob} = -99;
 
  
-my $observations = [ '<s>', '`s_eh_n', 't_r_ax_l', '</s>' ];
+#my $observations = [ '<s>', '`s_eh_n', 't_r_ax_l', '</s>' ];
 #my $observations = [ '<s>', '`s_eh_n'];
 #my $observations = [ '<s>'];
 
 #my $observations = [ '<s>', '`k_ao_r', 's_ax_t', '</s>' ];
 
-#my $observations = [ '<s>', 'k_ao_z', 'm_ax', 'p_ax', 'l_ax_s', '</s>' ];
+my $observations = [ '<s>', '`k_ao_z', 'm_ax', 'p_ax', 'l_ax_s', '</s>' ];
 
 #my $observations = [ '<s>', '`s_eh_n', 'k_ao_z', '</s>' ];
 

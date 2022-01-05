@@ -830,3 +830,7 @@ Discusión de si es mejor un modelo por biramas o un modelo en función de las l
 Revisar el calculo parar obtener el valor maximo de la probabilidad, posiblemente en alguna parte del código se mantuvieron las multiplicaciones.
 
 Probar si es factible trabajar con matriz de transicion incompleta, ver no en ufnciónn de la cantidad de datoos, sino en unción de los calculos (ver que los calculos son correctos al trabajar commpleto o incompleto) Revisar los CALCULOS.
+
+
+entennder porque los valores son diferentes debido a la diferencia enre los algorimos
+
