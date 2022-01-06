@@ -5,7 +5,7 @@
 package Algorithm::Viterbi;
 
 use vars qw/$VERSION/;
-$VERSION = '0.01';
+$VERSION = '0.01.log';
 
 =head1 NAME
 
@@ -380,22 +380,22 @@ sub forward_viterbi
   my $T = { };
   my @T2; #v_path
   foreach my $state (@{$self->{states}}) {
-    ##               prob_ini.                 
-    $T->{$state} = [ $self->{start}{$state}];
+    ##               prob.                  
+    $T->{$state} = [ $self->{start}{$state}]; 
   }
-
-  my $contador = 1;
   
+  my $contador = 1;
+
   foreach my $output (@$observation) {
     my $U = { };
     my $argmax;
-    my $valmax = 0;
+    my $valmax = -200;
     my $total = 0;
     print "\n***************************************FOR OUTPUT <$output>\n";
-   
+    
     foreach my $state (@{$self->{states}}) {
       print "\n.....................................FOR STATE <$state>\n";
-        
+      
       $total = 0;
       my $prev_state = '';
       
@@ -407,11 +407,11 @@ sub forward_viterbi
       print "prob_ini: $prob_ini \n";
       print "total: $total \n";
       print "contador: $contador \n";
-
+      
       my $p;
       
       if ($contador == 1) {
-        $p = $prob_ini * $e;
+        $p = $prob_ini + $e;
         $total += $p;
         if ($total > $valmax) {
           $argmax = $state;
@@ -419,17 +419,17 @@ sub forward_viterbi
           print ">>>>>>>>>>>CAMBIA VALMAX\n";
         }
       }else{
-        $valmax = 0;
+        $valmax = -200;
         foreach $prev_state (@{$self->{states}}) {
           print "\n+++++++++++++++++++++++++++++FOR PREV_STATE <$prev_state>\n";
           print "valmax = $valmax\n";
           ($prob_ini) = @{$T->{$prev_state}};
           $t = $self->get_transition($prev_state, $state);
-          $p = $prob_ini * $t;
+          $p = $prob_ini + $t;
           
           if ($p > $valmax) {
             $valmax = $p;
-            $total = $p * $e;          
+            $total = $p + $e;          
             print ">>>>>>>>>>>CAMBIA VALMAX\n";
           }
           print "VALORES PREV_STATE-----------------------------\n";
@@ -443,8 +443,8 @@ sub forward_viterbi
           print "total: $total \n";
           print "valmax: $valmax \n\n";      
         }
-      }        
-        
+      }
+      
       print "VALORES-----------------------------\n";
       print "output: $output \n";
       print "prev_state: $prev_state \n";
@@ -461,7 +461,7 @@ sub forward_viterbi
     $contador += 1;
     $T = $U;
     
-    $valmax = 0;
+    $valmax = -200;
     foreach my $state (@{$self->{states}}) { 
       my ($valor_final) = @{$T->{$state}};
       $total = $valor_final;
@@ -470,8 +470,7 @@ sub forward_viterbi
         $valmax = $total;
       }
     }
-      
-      
+    
     push(@T2, $argmax);
     print "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^DUMPER T \n";
     print Dumper($T);
@@ -481,7 +480,7 @@ sub forward_viterbi
 
   ## apply sum/max to the final states
   my $total = 0;
-  my $valmax = 0;
+  my $valmax = -200;
   foreach my $state (@{$self->{states}}) {
     my ($prob_ini) = @{$T->{$state}};
     $total = $prob_ini;
@@ -563,7 +562,7 @@ sub get_emission
     }
     else {
       #output exists, but not for this state
-      $e = 0;
+      $e = -99;
     }
   }
   else {
@@ -646,6 +645,16 @@ sub get_transition
   return $t;
 }
 
+sub log_base_n {
+    my ($base, $n) = @_;
+    return log($n)/log($base);
+}
+
+sub exp_base_n {
+    my ($base, $n) = @_;
+	return $base**$n;
+}
+
 =head1 AUTHOR
 
 Koen Dejonghe 	koen@fietsoverland.com
@@ -653,9 +662,13 @@ Copyright (c) 2006 Koen Dejonghe. All rights reserved.
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
+=head1 MODIFICATION
+Juan José Morales	jjmoralesb98@outlook.com
+Modified to work with logarithms
+
 =head1 VERSION
 
-Version 0.01 (2006-Nov-07)
+Version 0.01.log (2021-Dec-14)
 
 =cut
 

@@ -1,4 +1,5 @@
-use Algorithm::ViterbiLog;
+#use Algorithm::ViterbiLog;
+use Algorithm::ViterbiLogV2;
 use Data::Dumper;
 use strict;
 use 5.28.1;
@@ -76,7 +77,14 @@ my $observations = [ '<s>', '`k_ao_z', 'm_ax', 'p_ax', 'l_ax_s', '</s>' ];
 
 
 print "\nDumper Forward Viterbi\n";
-print Dumper ($v->forward_viterbi($observations));
+#print Dumper ($v->forward_viterbi($observations));
+
+my ($prob_max, @path) = $v->forward_viterbi($observations);
+
+print "\nPROB_MAX: $prob_max\n";
+foreach my $answer (@path){
+    print "$answer ";    
+}
 
 
 close(FHI);
