@@ -1,5 +1,6 @@
 #use Algorithm::ViterbiLog;
 use Algorithm::ViterbiLogV2;
+#use Algorithm::ViterbiLogV2A;
 use Data::Dumper;
 use strict;
 use 5.28.1;
@@ -19,47 +20,27 @@ open(FHT, '<', $file_tra) or die $!;
 while (<FHI>) {
     my $linea = $_;
     chomp($linea);
-    
-    #print "linea: $linea \n";
     my @vector = split(/,/, $linea, length($linea));
-    
-    #print "parte 0: $vector[0] \n";
-    #print "parte 1: $vector[1] \n\n";
     $vector_inicial{$vector[0]} = $vector[1];
 }
 
 while (<FHE>) {
     my $linea = $_;
     chomp($linea);
-    
     my @emision = split(/,/, $linea, length($linea));
-    
     $probabilidad_emision{$emision[0]}{$emision[1]} = $emision[2];
 }
 
 while (<FHT>) {
     my $linea = $_;
     chomp($linea);
-    
     my @transicion = split(/,/, $linea, length($linea));
-    
     $probabilidad_transicion{$transicion[0]}{$transicion[1]} = $transicion[2];
 }
 
-#################### VITERBI ####################
-
-#print "\nDumper Vector Inicial\n";
-#print Dumper(\%vector_inicial);
-#
-#print "\nDumper Probabilidad Emision\n";
-#print Dumper(\%probabilidad_emision);
-#
-#print "\nDumper Probabilidad Transicion\n";
-#print Dumper(\%probabilidad_transicion);
-
-
 my $v = Algorithm::Viterbi->new();
 $v->start(\%vector_inicial);
+$v->{unknown_transition_prob} = -99;
 $v->transition(\%probabilidad_transicion);
 $v->emission(\%probabilidad_emision);
 #$v->{unknown_emission_prob} = -99;
@@ -71,10 +52,24 @@ $v->emission(\%probabilidad_emision);
 
 #my $observations = [ '<s>', '`k_ao_r', 's_ax_t', '</s>' ];
 
-my $observations = [ '<s>', '`k_ao_z', 'm_ax', 'p_ax', 'l_ax_s', '</s>' ];
+#my $observations = [ '<s>', '`k_ao_z', 'm_ax', 'p_ax', 'l_ax_s', '</s>' ];
 
 #my $observations = [ '<s>', '`s_eh_n', 'k_ao_z', '</s>' ];
+#my $observations = [ '<s>', '`s_eh_n', 'm_ax', '</s>' ];
+#my $observations = [ '<s>', '`s_eh_n', '`s_eh_n', '</s>' ];
 
+#my $observations = [ '<s>', '`f_ow_k', '`s_ih_ng', 'er', '</s>'];
+
+#my $observations = [ '<s>', '</s>'];
+
+#my $observations = [ '<s>', '`t_r_ey_l', '</s>'];
+#my $observations = [ '<s>', 's_t_er', '</s>'];
+my $observations = [ '<s>', 'eh_n', '`k_ae_p', 's_ax', '`l_ey', 'sh_ax_n','</s>'];
+
+#my $observations = [ '<s>', '`s_ih_ng', 'k_r_ax','`n_ay', 'z_er', '</s>'];
+
+#my $observations = [ '<s>', '`k_aa_t', '</s>'];
+#my $observations = [ '`k_aa_t', '</s>'];
 
 print "\nDumper Forward Viterbi\n";
 #print Dumper ($v->forward_viterbi($observations));

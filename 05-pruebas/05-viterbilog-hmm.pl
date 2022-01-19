@@ -1,7 +1,8 @@
 #use Algorithm::Viterbi;
 #use Algorithm::ViterbiV2;
 #use Algorithm::ViterbiLog;
-use Algorithm::ViterbiLogV2;
+#use Algorithm::ViterbiLogV2;
+use Algorithm::ViterbiLogV2A;
 use Data::Dumper;
 use strict;
 use 5.28.1;
@@ -35,9 +36,11 @@ my $emission_probability = {
 
  
 my $v = Algorithm::Viterbi->new();
+#$v->{unknown_transition_prob} = -99;
 $v->start($start_probability);
 $v->transition($transition_probability);
 $v->emission($emission_probability);
+
  
 my $observations = [ 'normal', 'cold', 'dizzy' ];
  

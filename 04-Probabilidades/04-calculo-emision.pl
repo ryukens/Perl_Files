@@ -93,7 +93,7 @@ foreach $llave_1 (keys %bigrama){
     foreach $llave_2 (@uni_katakanas){
         #print "llave2: $llave_2 \n";
         if (!exists $bigrama{$llave_1}{$llave_2}) {
-            $bigrama{$llave_1}{$llave_2} = -99;
+            #$bigrama{$llave_1}{$llave_2} = -99;
         }
     }
 }
@@ -113,7 +113,7 @@ foreach $llave_1 (keys %bigrama){
     foreach $llave_2 (keys %{$bigrama{$llave_1}}){
         #print "$llave_1 / $llave_2 = $bigrama{$llave_1}{$llave_2}\n";
         if ($bigrama{$llave_1}{$llave_2} == -99) {
-            $bigrama_prob{$llave_1}{$llave_2} = -99;
+            #$bigrama_prob{$llave_1}{$llave_2} = -99;
         }else{
             if ($llave_1 eq "<s>" || $llave_1 eq "</s>" ) {
                 $bigrama_prob{$llave_1}{$llave_2} = 0;

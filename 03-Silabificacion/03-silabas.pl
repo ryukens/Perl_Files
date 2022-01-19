@@ -9,8 +9,8 @@ binmode STDOUT, ":utf8";
 binmode STDERR, ":utf8";
 use 5.28.1;
 
-#my $file_in = '..\Documentos\results.txt';
-my $file_in = '..\Documentos\results_test.txt';
+my $file_in = '..\Documentos\results.txt';
+#my $file_in = '..\Documentos\results_test.txt';
 my $file_out = '..\Documentos\results_final.txt';
 my $linea;
 my $string;

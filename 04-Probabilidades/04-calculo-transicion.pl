@@ -92,7 +92,7 @@ foreach $llave_1 (keys %unigrama){
 foreach $llave_1 (keys %unigrama){
     foreach $llave_2 (keys %unigrama){        
         if (!exists $bigrama{$llave_1}{$llave_2}) {
-            $bigrama{$llave_1}{$llave_2} = -99;
+            #$bigrama{$llave_1}{$llave_2} = -99;
         }
     }
 #   $unigrama_prob{$llave_1} = $unigrama{$llave_1}/$total_s;
@@ -108,7 +108,7 @@ foreach $llave_1 (keys %bigrama){
     foreach $llave_2 (keys %{$bigrama{$llave_1}}){
         #print "$llave_1 / $llave_2 = $bigrama{$llave_1}{$llave_2}\n";
         if ($bigrama{$llave_1}{$llave_2} == -99) {
-            $bigrama_prob{$llave_1}{$llave_2} = -99;
+            #$bigrama_prob{$llave_1}{$llave_2} = -99;
         }else{
             my $numerador = &log_base_n(10, $bigrama{$llave_1}{$llave_2});
             my $denominador = &log_base_n(10, $unigrama{$llave_1});

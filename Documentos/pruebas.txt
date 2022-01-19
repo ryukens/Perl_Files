@@ -268,6 +268,9 @@ NULL ({ }) `s_eh_n ({ 1 }) t_r_ax_l ({ 2 3 4 })
 # Sentence pair (2) source length 5 target length 7 alignment score : 6.25419e-05
 セン ト ラ ル ヒー ティン グ 
 NULL ({ }) `s_eh_n ({ 1 }) t_r_ax_l ({ 2 3 4 }) | ({ }) `hh_iy ({ 5 }) t_ax_ng ({ 6 7 }) 
+# Sentence pair (241) source length 3 target length 3 alignment score : 2.14907e-07
+サン チ マン 
+NULL ({ }) `s_eh_n ({ 1 }) t_ax ({ 2 }) m_ax_n_t ({ 3 }) 
 # Sentence pair (297) source length 2 target length 4 alignment score : 5.07816e-05
 コ ル セッ ト 
 NULL ({ }) `k_ao_r ({ 1 2 }) s_ax_t ({ 3 4 }) 
@@ -834,3 +837,89 @@ Probar si es factible trabajar con matriz de transicion incompleta, ver no en uf
 
 entennder porque los valores son diferentes debido a la diferencia enre los algorimos
 
+
+
+
+31-> trail	トレイル `t_r_ey_l
+
+73-> central	セントラル `s_eh_n~t_r_ax_l
+74-> philanthropy	フィランソロピー f_ih~`l_ae_n~th_r_ax~p_iy
+132-> manipulation	マニピュレーション m_ax~`n_ih~p_y_ax~`l_ey~sh_ax_n
+
+165-> encapsulation	エンカプセレーション eh_n~`k_ae_p~s_ax~`l_ey~sh_ax_n
+3316-> interior decoration	インテリアデコレーション ih_n~`t_ih~r_iy~er | `d_eh~k_er~`ey~sh_ax_n
+
+5866-> synchronizer	シンクロナイザー `s_ih_ng~k_r_ax~`n_ay~z_er
+
+Prob_ini:-3.803959
+
+Emision EDICT2
+`n_ay,ニ,-0.234083
+`n_ay,イ,-1.380211
+`n_ay,ニジェー,-1.380211
+`n_ay,ナイ,-0.477121
+
+Transicion EDICT2
+クロ,ニ,-1.753328
+クロ,ナイズド,-1.929419
+クロ,ナイ,-99 (código)
+
+prob: クロ / 'ナイ' => '-103.28108'
+
+prob: クロ / 'ニ' => -5.79137
+
+
+# Sentence pair (5679) source length 5 target length 7 alignment score : 4.89463e-05
+シン ク ロ ナ イ ゼー ション 
+NULL ({ }) `s_ih_ng ({ 1 }) k_r_ax ({ 2 3 }) n_ax ({ 4 }) `z_ey ({ 5 6 }) sh_ax_n ({ 7 }) 
+
+
+USAMOS UN MODELO ESTADÍSTICO
+
+OPTIMIZACIÓN CON HASHES -> PROBAR CON LA DATA DE PRUEBA -> EXAMINAR MANERAS DE OPTIMIZACIÓN (En función del contexto)(Posiblemente se necesite conocer los otros probables caminos de una misma observación, en función de un ranking). Esto dependerá de sí llego a una optimización menor al 90%. El contexto depende de la granularidad del proceso de alineación (sílabas o letras por ejemplo.) 
+
+Hash donde la primera key será el fonema latino. La llave interna tendrá la lista de katakanas obtenidas del diccionario, el valor será el logaritmo que está en las probabilidades.
+
+Posiblemente se necesite conocer los estados que Viterbi utiliza para hacer los cálculos.
+
+Usar la data de entrenamiento para realizar las pruebas con el algoritmo corregido. Comparar mi resultado de la prediccion con respecto a la secuencia katakana original para liistar  los ccasos conn errores. Analizar los tipos de errores más frecuentes que necesitaran ser mejorados en el proceso de alineación (GIZA) y validación de las reglas que ya tenía generado. Existiran grupos que ayudarán a identificar por donde mejorar el algoritmo.
+
+Habrá casos frecuentes y raros (similar a distribución gausianna). Identificar las reglas más frecuentes que deben ser incorporadas en la validación. Se repite este proceso con las nuevas reglas actualizadas. Nunca se llegará a optimizar al 100%, almenos al 90% sí.
+
+Luego con la data de prueba se sabrá que tan correcto hemos realizado el proceso. Buscar alternativas de transliteración para comparar con lo nuestro. Se conocerá el desempeño de dichas alternativas con nuestro método.
+
+Explicar porqué se eligio trabajar con fonemas en lugar de otras alternativas. Tiene fallos y beneficios por igual. Es probable que exista una correspondencia/alineaciónn más específica entre el inglés y la secuencia katakana. 
+
+Viterbi se sobrecargaría del otro modo (letras) y la toma de decisión podría ser más dificil. el arbol de conbinaciones sería más grande. 
+
+Entropía.
+
+
+(DOCUMENTACIÓN/TRABAJO FUTURO)Otro ejemplo de segmentación es usando a la observacion no como el fonema completo, sino en función de los caracteres individuales. Disminnuir la cantidad de caracteres para la alineación inicial.
+
+
+
+
+
+`k_aa_t,クワット,-0.477121
+`k_aa_t,コット,-0.176091
+`l_iy_k,リーク,-0.301030
+`l_iy_k,ポワロー,-0.602060
+`l_iy_k,ル,-0.602060
+`k_ay_t,カイト,0.000000
+`f_r_eh_sh,フレッシュ,0.000000
+`s_m_ih_th,スミス,0.000000
+`f_ih_p_s,フィップス,0.000000
+`n_ey_d,ネード,-0.367977
+`n_ey_d,ナーデ,-0.845098
+`n_ey_d,ナード,-0.544068
+`n_ey_d,ネ,-0.845098
+sh_ax_s_t,シスト,0.000000
+`s_k_r_ae_m,スクラム,-0.301030
+`s_k_r_ae_m,スクラン,-0.301030
+`n_iy_d,ニード,0.000000
+`ao_r,オレ,-1.672098
+`ao_r,オア,-1.194977
+`ao_r,オー,-0.240734
+`ao_r,オール,-1.672098
+`ao_r,オル,-0.496007
