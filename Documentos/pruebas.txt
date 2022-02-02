@@ -571,8 +571,12 @@ https://en.wikipedia.org/wiki/Katakana_(Unicode_block)
 Cambiar Timeout en Regex101 para que funcione
 
 ^[゠-ー;\(\)\[\]\s\w]*\s*\(.*$
+
+(Obtener Katakanas y Fonemas de las entradas)
 ^[\x{30A0}-\x{30FF};\(\)\[\]\s\w]*\s*\(.*$
 
+QUITAR <s> </s> y espacios en blanco
+[<s>\/ ]
 
 NORMAL
 `s_k_ey,スカ,0.333333
