@@ -153,7 +153,7 @@ sub validacion {
                     $correcto++;
                     push (@flag, 1);
                 }
-                if($en_syl_phoneme =~ /`?[iy]\w*/ && $sec_katakana =~ /イ/){
+                if($en_syl_phoneme =~ /`?[iy]|ax\w*/ && $sec_katakana =~ /イ/){
                     print "ENCONTRADO: 2 ".$en_syl_phoneme."\n";
                     $correcto++;
                     push (@flag, 1);
@@ -302,7 +302,12 @@ sub validacion {
                     print "ENCONTRADO: 31 ".$en_syl_phoneme."\n";
                     $correcto++;
                     push (@flag, 1);
-                }                           
+                }
+                if($en_syl_phoneme =~ /`?(n_ay)|(n_ax)/ && $sec_katakana =~ /^ナイ/){
+                    print "ENCONTRADO: 32 ".$en_syl_phoneme."\n";
+                    $correcto++;
+                    push (@flag, 1);
+                }
             }else{
                 print "VACIO: ".$en_syl_phoneme."\n";
                 push (@flag, 0);

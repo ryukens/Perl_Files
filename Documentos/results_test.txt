@@ -1,3 +1,6 @@
-# Sentence pair (1) source length 3 target length 4 alignment score : 8.03033e-05
-レ イ アッ プ 
-NULL ({ }) `l_ey ({ 1 }) - ({ 2 }) `ah_p ({ 3 4 }) 
+# Sentence pair (5679) source length 5 target length 7 alignment score : 4.89463e-05
+シン ク ロ ナ イ ゼー ション 
+NULL ({ }) `s_ih_ng ({ 1 }) k_r_ax ({ 2 3 }) n_ax ({ 4 }) `z_ey ({ 5 6 }) sh_ax_n ({ 7 }) 
+# Sentence pair (11930) source length 5 target length 6 alignment score : 8.3062e-07
+ハー モ ナ イ ゼー ション 
+NULL ({ }) `hh_aa_r ({ 1 }) m_ax ({ 2 }) n_ih ({ 3 }) `z_ey ({ 4 5 }) sh_ax_n ({ 6 }) 

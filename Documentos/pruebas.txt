@@ -854,14 +854,16 @@ entennder porque los valores son diferentes debido a la diferencia enre los algo
 3316-> interior decoration	インテリアデコレーション ih_n~`t_ih~r_iy~er | `d_eh~k_er~`ey~sh_ax_n
 
 5866-> synchronizer	シンクロナイザー `s_ih_ng~k_r_ax~`n_ay~z_er
+<s> シン クロ ニ ザー </s>
+
 
 Prob_ini:-3.803959
 
 Emision EDICT2
 `n_ay,ニ,-0.234083
+`n_ay,ナイ,-0.477121
 `n_ay,イ,-1.380211
 `n_ay,ニジェー,-1.380211
-`n_ay,ナイ,-0.477121
 
 Transicion EDICT2
 クロ,ニ,-1.753328
@@ -876,6 +878,66 @@ prob: クロ / 'ニ' => -5.79137
 # Sentence pair (5679) source length 5 target length 7 alignment score : 4.89463e-05
 シン ク ロ ナ イ ゼー ション 
 NULL ({ }) `s_ih_ng ({ 1 }) k_r_ax ({ 2 3 }) n_ax ({ 4 }) `z_ey ({ 5 6 }) sh_ax_n ({ 7 }) 
+# Sentence pair (11930) source length 5 target length 6 alignment score : 8.3062e-07
+ハー モ ナ イ ゼー ション 
+NULL ({ }) `hh_aa_r ({ 1 }) m_ax ({ 2 }) n_ih ({ 3 }) `z_ey ({ 4 5 }) sh_ax_n ({ 6 }) 
+# Sentence pair (21668) source length 3 target length 4 alignment score : 0.000222507
+ナ イ ア シン 
+NULL ({ }) `n_ay ({ 1 2 }) ax ({ 3 }) s_ax_n ({ 4 }) 
+# Sentence pair (8793) source length 7 target length 7 alignment score : 1.08518e-06
+ア メ リ カ ナ イ ズ 
+NULL ({ }) ax ({ 1 }) `m_eh ({ 2 }) r_ax ({ 3 }) k_ax ({ 4 }) n_ax ({ 5 }) `z_ey ({ 6 7 }) sh_ax_n ({ }) 
+# Sentence pair (11745) source length 3 target length 5 alignment score : 4.4183e-06
+ナ イ チン ゲー ル 
+NULL ({ }) `n_ay ({ 1 2 }) t_ih_ng ({ }) g_ey_l ({ 3 4 5 }) 
+# Sentence pair (14668) source length 3 target length 5 alignment score : 0.000326589
+ナ イ ト ラッ チ 
+NULL ({ }) `n_ay_t ({ 1 2 3 }) | ({ }) `l_ae_ch ({ 4 5 }) 
+# Sentence pair (17623) source length 2 target length 4 alignment score : 0.000109638
+ス ナ イ パー 
+NULL ({ }) `s_n_ay ({ 1 2 3 }) p_er ({ 4 }) 
+# Sentence pair (8123) source length 2 target length 5 alignment score : 0.000560487
+ジャッ ク ナ イ フ 
+NULL ({ }) `jh_ae_k ({ 1 2 }) `n_ay_f ({ 3 4 5 }) 
+
+`n_ay_d -> 2
+`n_ay_z -> 3
+`n_ay_l -> 3
+`n_ay_s -> 7
+`n_ay_n -> 9
+`n_ay_f -> 21
+`n_ay_t -> 52
+otros -> 11
+Total	108
+
+`n_ay -> 33
+
+141
+
+Emision EDICT2
+`n_ay,ニ,-0.234083
+`n_ay,ナイ,-0.477121
+`n_ay,イ,-1.380211
+`n_ay,ニジェー,-1.380211
+
+Mecanismo de generalización para ver si se puede optimizar.
+Buscar una transición general.
+
+DEBILIDAD DETECTADA tras la elección de la sílaba para el análisis. Inequidad entre lo que se 	mapea de un lado  a otro. (trabajo futuro - segmentación a nivel de letras)
+
+Problema de esparcidad (machine learning). La cadena es muy larga como para encontrar lo deseado, la transición que necesitaría para completar la palabra. Tenemos una visión en funnción de la daa de entrenamiento y que podría no estar presente en la data de prueba.
+
+`l_ey -> 175
+
+Emision EDICT2
+`l_ey,ラ,-0.934498
+`l_ey,ライ,-2.110590
+`l_ey,レー,-0.247267
+`l_ey,レ,-0.712650
+`l_ey,レイ,-0.964462
+`l_ey,レッ,-2.110590
+
+
 
 
 USAMOS UN MODELO ESTADÍSTICO
@@ -901,8 +963,9 @@ Entropía.
 
 (DOCUMENTACIÓN/TRABAJO FUTURO)Otro ejemplo de segmentación es usando a la observacion no como el fonema completo, sino en función de los caracteres individuales. Disminnuir la cantidad de caracteres para la alineación inicial.
 
-
-
+d2i deep
+prob 2.6 se puede indicar y justiicar rporque el porcentaje sería bajo o lo esperado.
+https://d2l.ai/chapter_preliminaries/probability.html
 
 
 `k_aa_t,クワット,-0.477121
@@ -927,3 +990,7 @@ sh_ax_s_t,シスト,0.000000
 `ao_r,オー,-0.240734
 `ao_r,オール,-1.672098
 `ao_r,オル,-0.496007
+
+
+
+
