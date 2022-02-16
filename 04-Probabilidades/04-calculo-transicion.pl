@@ -7,6 +7,7 @@ use Encode qw/encode decode/;
 use Config;
 binmode STDOUT, ":utf8";
 binmode STDERR, ":utf8";
+use Data::Dumper;
 use 5.28.1;
 
 #my $file_in = '..\Documentos\results_test.txt';
@@ -48,7 +49,7 @@ while (<FH>) {
         #print "uni: $uni valor: $unigrama{$uni}\n";
     }
     
-    #BIGRAMAS    
+    #BIGRAMAS DE DICCIONARIO    
     for (my $a = 0; $a < $tamano_linea; $a++ ){
         my $b = $a + 1;
         if ($b != $tamano_linea) {
@@ -63,20 +64,40 @@ while (<FH>) {
     }
 }
 
-#print ">>>>>>>>>>>>>>>>>>>>> UNIGRAMAS >>>>>>>>>>>>>>>>>>>>>\n";
-#@uni_valores = values %unigrama;
-#foreach my $valor (@uni_valores){
-#    $total = $total + $valor;
+print ">>>>>>>>>>>>>>>>>>>>> UNIGRAMAS >>>>>>>>>>>>>>>>>>>>>\n";
+@uni_valores = values %unigrama;
+foreach my $valor (@uni_valores){
+    $total = $total + $valor;
+}
+print "TOTAL: $total\n";
+$total_s = $total - $unigrama{'<s>'};
+print "TOTAL sin <s>: $total_s\n";
+my $cant = %unigrama;
+print "cantidad unigramas = $cant\n";
+
+foreach $llave_1 (keys %unigrama){
+    print "unigrama: $llave_1 valor: $unigrama{$llave_1}\n";
+    if ($llave_1 eq "<s>") {
+        $vector_inicial{$llave_1} = 0;
+    }else{
+        $vector_inicial{$llave_1} = -99;    
+    }    
+}
+
+#if ($llave_1 eq "<s>") {
+#    $vector_inicial{$llave_2} = $bigrama_prob{$llave_1}{$llave_2};
 #}
-#print "TOTAL: $total\n";
-#$total_s = $total - $unigrama{'<s>'};
-#print "TOTAL sin <s>: $total_s\n";
-#
-#foreach $llave_1 (keys %unigrama){
-#    print "$llave_1 = $unigrama{$llave_1}\n";
-#    $unigrama_prob{$llave_1} = $unigrama{$llave_1}/$total_s;
-#}
-#
+
+
+foreach $llave_1 (keys %unigrama){
+    foreach $llave_2 (keys %unigrama){        
+        if (!exists $bigrama{$llave_1}{$llave_2}) {
+            #$bigrama{$llave_1}{$llave_2} = -99;
+        }
+    }
+#   $unigrama_prob{$llave_1} = $unigrama{$llave_1}/$total_s;
+}
+
 #print "\n>>>>>>>>>>>>>>>>>>>>> UNIGRAMA_PROB >>>>>>>>>>>>>>>>>>>>>\n";
 #foreach $llave_1 (keys %unigrama_prob){
 #    print "$llave_1 = $unigrama_prob{$llave_1}\n";
@@ -85,8 +106,21 @@ while (<FH>) {
 print "\n>>>>>>>>>>>>>>>>>>>>> BIGRAMAS >>>>>>>>>>>>>>>>>>>>>\n";
 foreach $llave_1 (keys %bigrama){
     foreach $llave_2 (keys %{$bigrama{$llave_1}}){
-        print "$llave_1 / $llave_2 = $bigrama{$llave_1}{$llave_2}\n";
-        $bigrama_prob{$llave_1}{$llave_2} = $bigrama{$llave_1}{$llave_2}/$unigrama{$llave_1};
+        #print "$llave_1 / $llave_2 = $bigrama{$llave_1}{$llave_2}\n";
+        if ($bigrama{$llave_1}{$llave_2} == -99) {
+            #$bigrama_prob{$llave_1}{$llave_2} = -99;
+        }else{
+            my $numerador = &log_base_n(10, $bigrama{$llave_1}{$llave_2});
+            my $denominador = &log_base_n(10, $unigrama{$llave_1});
+            $bigrama_prob{$llave_1}{$llave_2} = $numerador - $denominador;
+            
+            #VECTOR INICIAL
+            #if ($llave_1 eq "<s>") {
+            #    $vector_inicial{$llave_2} = $bigrama_prob{$llave_1}{$llave_2};
+            #}
+            
+            #$bigrama_prob{$llave_1}{$llave_2} = $bigrama{$llave_1}{$llave_2}/$unigrama{$llave_1};
+        }
     }
 }
 
@@ -95,20 +129,17 @@ foreach $llave_1 (keys %bigrama_prob){
     foreach $llave_2 (keys %{$bigrama{$llave_1}}){
         #print "$llave_1 / $llave_2 = $bigrama_prob{$llave_1}{$llave_2}\n"; 
         my $st = sprintf ("%s,%s,%.6f\n", $llave_1,$llave_2,$bigrama_prob{$llave_1}{$llave_2});
-        print $st;
+        #print $st;
         print FHO $st;
         
-        #VECTOR INICIAL
-        if ($llave_1 eq "<s>") {
-            $vector_inicial{$llave_2} = $bigrama_prob{$llave_1}{$llave_2};
-        }
+        
     }
 }
 
 print "\n>>>>>>>>>>>>>>>>>>>>> VECTOR_INICIAL >>>>>>>>>>>>>>>>>>>>>\n";
 foreach $uni_inicial (keys %vector_inicial){
     my $vc = sprintf ("%s,%.6f\n", $uni_inicial,$vector_inicial{$uni_inicial});
-    print $vc;
+    #print $vc;
     print FHV $vc;
 }
 
@@ -116,3 +147,8 @@ foreach $uni_inicial (keys %vector_inicial){
 close (FH);
 close (FHO);
 close (FHV);
+
+sub log_base_n {
+    my ($base, $n) = @_;
+    return log($n)/log($base)
+}

@@ -1,4 +1,6 @@
 use warnings;
+no warnings 'utf8';
+no warnings 'experimental';
 use strict;
 use utf8;
 use Encode qw/encode decode/;
@@ -8,6 +10,7 @@ binmode STDERR, ":utf8";
 use 5.28.1;
 
 my $file_in = '..\Documentos\results.txt';
+#my $file_in = '..\Documentos\results_test.txt';
 my $file_out = '..\Documentos\results_final.txt';
 my $linea;
 my $string;
@@ -24,7 +27,6 @@ open(FHO, '+>', $file_out) or die $!;
 
 while (<FH>) {
     $linea = decode("utf-8", $_);
-    chomp($linea);
     $orden = $linea;
     given($linea){
         when($linea =~ /[|]/){
@@ -45,6 +47,19 @@ while (<FH>) {
                 while ($palabra =~ /^(\(\{([\s\d]*)\}\))/g) {
                     $valor = $1;
                 }
+                if($palabra =~ /- \(\{ (\d+ )+\}\)/) {
+                    my $caracter_especial;
+                    while ($palabra =~ /(- \(\{ (\d+ )+\}\))/g) {
+                        $caracter_especial = $1;
+                    }
+                    my @indices_esp = $caracter_especial =~ /(\d+)/g;                
+                    my @indices_val = $valor =~ /(\d+)/g;                
+                    my @indices_total = ();
+                    push (@indices_total, @indices_esp);
+                    push (@indices_total, @indices_val);                
+                    my @orden_sort = sort {$a <=> $b} @indices_total;
+                    $valor = "({ @orden_sort })";                
+                }
                 my $resto = &reemplazo($valor,$palabra,\@array_jp);
                 if ($cont == 0) {
                     $inicio = $resto;
@@ -64,11 +79,25 @@ while (<FH>) {
         when($linea =~ /NULL/ && $linea !~ /[|]/){
             print "palabra simple\n";
             print $linea;
-            $string = $linea;
+            $string = $linea;           
             
             my $valor;
             while ($string =~ /NULL (\(\{([\s\d]*)\}\))/g) {
                 $valor = $1;
+            }
+            
+            if($string =~ /- \(\{ (\d+ )+\}\)/) {
+                my $caracter_especial;
+                while ($string =~ /(- \(\{ (\d+ )+\}\))/g) {
+                    $caracter_especial = $1;
+                }
+                my @indices_esp = $caracter_especial =~ /(\d+)/g;                
+                my @indices_val = $valor =~ /(\d+)/g;                
+                my @indices_total = ();
+                push (@indices_total, @indices_esp);
+                push (@indices_total, @indices_val);                
+                my @orden_sort = sort {$a <=> $b} @indices_total;
+                $valor = "({ @orden_sort })";                
             }
             
             $linea = &reemplazo($valor,$linea,\@array_jp);
@@ -124,18 +153,31 @@ sub reemplazo {
         push (@array_en_phoneme, $1);
     }
 
-    $orden =~ s/[^0-9]//g;
-    my @orden_actual = split('', $orden, length($orden));
+    #$orden =~ s/[^\d+]//g;
+    #print "ORDEN: $orden \n";
+    #my @orden_actual = split('', $orden, length($orden));
+    my @orden_actual = $orden =~ /(\d+)/g;
     my @orden_sort = sort {$a <=> $b} @orden_actual;
+        
+    foreach my $k (@orden_actual){
+        print "OA: $k \n";
+    }    
     
     $linea_og =~ s/^NULL \(\{[\s\d]*\}\)/NULL \(\{ \}\)/;
     $linea_og =~ s/^(\(\{([\s\d]*)\}\))/\(\{ \}\)/;
+    $linea_og =~ s/- \(\{ (\d+ )+\}\) //;
+    $linea_og =~ s/- \(\{ \}\) //;
     
+    #@array_indices = split('', $indice, length($indice));
+    @array_indices = $indice =~ /(\d+)/g;
     $indice =~ s/[^\d]//g;
-    @array_indices = split('', $indice, length($indice));  
     
-    if ($indice eq "") {
-        print "\nNO QUEDAN INDICES POR ORDENAR\n";
+    foreach my $k (@array_indices){
+        print "AI: $k \n";
+    }    
+    
+    if (@orden_actual ~~ @orden_sort && @array_indices == 0) {
+        print "\n1 NO QUEDAN INDICES POR ORDENAR\n";
         return $linea_og;
     }
     
@@ -148,7 +190,7 @@ sub reemplazo {
                 print "ENCONTRADO: 1 ".$en_syl_phoneme."\n";
                 $flag = $i;
             }
-            if($en_syl_phoneme =~ /`?[iy]\w*/ && $array_katakana[$i-1] =~ /^イ/){
+            if($en_syl_phoneme =~ /`?[iy]|ax\w*/ && $array_katakana[$i-1] =~ /^イ/){
                 print "ENCONTRADO: 2 ".$en_syl_phoneme."\n";
                 $flag = $i;
             }
@@ -172,7 +214,7 @@ sub reemplazo {
                 print "ENCONTRADO: 7 ".$en_syl_phoneme."\n";
                 $flag = $i;
             }
-            if($en_syl_phoneme =~ /`?g\w*/ && $array_katakana[$i-1] =~ /^(ガ|ギ|グ|ゲ|ゴ)/){
+            if($en_syl_phoneme =~ /`?[gj]\w*/ && $array_katakana[$i-1] =~ /^(ガ|ギ|グ|ゲ|ゴ)/){
                 print "ENCONTRADO: 8 ".$en_syl_phoneme."\n";
                 $flag = $i;
             }
@@ -184,7 +226,7 @@ sub reemplazo {
                 print "ENCONTRADO: 10 ".$en_syl_phoneme."\n";
                 $flag = $i;
             }
-            if($en_syl_phoneme =~ /`?[ak]\w*/ && $array_katakana[$i-1] =~ /^ヒ/){
+            if($en_syl_phoneme =~ /`?[fhak]\w*/ && $array_katakana[$i-1] =~ /^ヒ/){
                 print "ENCONTRADO: 11 ".$en_syl_phoneme."\n";
                 $flag = $i;
             }
@@ -240,7 +282,7 @@ sub reemplazo {
                 print "ENCONTRADO: 24 ".$en_syl_phoneme."\n";
                 $flag = $i;
             }
-            if($en_syl_phoneme =~ /`?[wv]\w*/ && $array_katakana[$i-1] =~ /^(ワ|ヲ)/){
+            if($en_syl_phoneme =~ /`?([wv]|er)\w*/ && $array_katakana[$i-1] =~ /^(ワ|ヲ)/){
                 print "ENCONTRADO: 25 ".$en_syl_phoneme."\n";
                 $flag = $i;
             }
@@ -248,7 +290,7 @@ sub reemplazo {
                 print "ENCONTRADO: 26 ".$en_syl_phoneme."\n";
                 $flag = $i;
             }
-            if($en_syl_phoneme =~ /`?([zs]|d)\w*/ && $array_katakana[$i-1] =~ /^ザ]/){
+            if($en_syl_phoneme =~ /`?([zsd])\w*/ && $array_katakana[$i-1] =~ /^ザ/){
                 print "ENCONTRADO: 27 ".$en_syl_phoneme."\n";
                 $flag = $i;
             }
@@ -267,27 +309,33 @@ sub reemplazo {
             if($en_syl_phoneme =~ /^`?jh\w*/ && $array_katakana[$i-1] =~ /^(ゼ|ゲ|ガ)/){
                 print "ENCONTRADO: 31 ".$en_syl_phoneme."\n";
                 $flag = $i;
-            }               
-        
-            $orden =~ s/[^0-9]//g;
-            @orden_actual = split('', $orden, length($orden));           
-            #print @orden_actual;
-            #print "\n";
-            #print @orden_sort;
-            #print "\n";
-            #print "FLAG = $flag \n";
+            }
+            if($en_syl_phoneme =~ /`?(n_ay)|(n_ax)/ && $array_katakana[$i-1] =~ /^ナイ/){
+                print "ENCONTRADO: 32 ".$en_syl_phoneme."\n";
+                $flag = $i;
+            }
+            @orden_actual = $orden =~ /(\d+)/g;
+            #$orden =~ s/[^0-9]//g;           
+            #@orden_actual = split('', $orden, length($orden));
+            
+            print @orden_actual;
+            print "\n";
+            print @orden_sort;
+            print "\n";
+            print "FLAG = $flag INDICE: $indice\n";
                              
             if (@orden_actual ~~ @orden_sort && $indice eq "") {
-                print "\nNO QUEDAN INDICES POR ORDENAR\n";
+                print "\n2 NO QUEDAN INDICES POR ORDENAR\n";
                 return $linea_og;
             }else{
                 if ( grep(/$flag/, @array_indices)) {
-                $linea_og = &ordenar($linea_og, $en_syl_phoneme, $flag);
+                $linea_og = &ordenar($linea_og, $en_syl_phoneme, $flag, \@array_en_phoneme, \@orden_sort);
                 $orden = $linea_og;
                 print "*$orden*";
                 print "FONEMA ALINEADO\n";
                 }
                 $flag = 0;
+                $indice = "";
                 print "\n";
             }
             print ":::::::::::::FIN FOR EACH:::::::::::::::::\n";
@@ -302,28 +350,52 @@ sub ordenar {
     my $linea_og = $_[0];
     my $en_syl_phoneme = $_[1];
     my $posicion = $_[2];
+    my @array_en_phoneme = @{$_[3]};
+    my @orden_sort = @{$_[4]};
     my @indices;
+    my $indice;
     
-    if ($linea_og =~ /$en_syl_phoneme (\(\{([\s1-9]*)\}\))/g) {
-        push (@indices, $1);
+    if ($linea_og =~ /$en_syl_phoneme (\(\{([\s\d]*)\}\))/) {
+        #push (@indices, $1);
+        print "ensylpho: $en_syl_phoneme 1: $1\n";
+        $indice = $1;
     }
-    print "\nFONEMA $en_syl_phoneme INDICES\n";
-    print @indices;
-    print "\nFONEMA $en_syl_phoneme INDICES\n";
+
+    print "\nFONEMA $en_syl_phoneme INDICES $indice\n";
+    print "\nINDICES ORDENADOS\n";
+    foreach my $v (@orden_sort){
+        print $v;    
+    }
+    print "\nINDICES ORDENADOS\n";
     
-    my $orden = $indices[0];
-    $orden =~ s/[^\d]//g;
-        
-    my @orden_og = split('', $orden, length($orden));
+    #my $orden = $indice;
+    my @orden_og = $indice =~ /(\d+)/g;
     
     if (grep(/$posicion/, @orden_og)) {
         return $linea_og;
-    }else{   
+    }else{
         push(@orden_og, $posicion);
-        my @orden_sort = sort {$a <=> $b} @orden_og;                 
+        my @orden_sort2 = sort {$a <=> $b} @orden_og;
+        my $ord = @orden_sort2;
+        print "@orden_sort2\n";
         
-        $linea_og =~ s/$en_syl_phoneme \(\{[\s\d]*\}\)/$en_syl_phoneme \(\{ @orden_sort \}\)/;
-        
+        my $c = 0;
+        my $e = 0;
+        my $i = $orden_sort2[0];
+        $i--;
+        for (my $j=0; $j<$ord; $j++){
+            print "i: $i / sort: $orden_sort[$i] / e: $e / og: $orden_sort2[$e]\n";
+            if ($orden_sort[$i]!=$orden_sort2[$e]) {
+                $c++;
+            }
+            $e++;
+            $i++;
+        }
+        print "c: $c\n";
+        if ($c == 0) {
+            $linea_og =~ s/$en_syl_phoneme \(\{[\s\d]*\}\)/$en_syl_phoneme \(\{ @orden_sort2 \}\)/;
+        }       
+
         return $linea_og;
     }
 }
