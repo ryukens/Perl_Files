@@ -391,8 +391,6 @@ sub forward_viterbi
       
 	  my $total = 0;
       my $argmax = [ ];
-    #  my $valmax = 0;
-	  
 	  my $valmax = -200;
 	  
       foreach my $state (@{$self->{states}}) {
@@ -406,11 +404,6 @@ sub forward_viterbi
 		print "v_prob: $v_prob \n";
 		print "total: $total \n";
 		print "valmax: $valmax \n";
-
-	#	my $p = $e * $t;
-	#	$prob *= $p;
-	#	$v_prob *= $p;
-	#	$total += $prob;
 		
 		my $p = $e + $t;
 		$prob += $p;
@@ -418,9 +411,14 @@ sub forward_viterbi
 		$total += exp_base_n(10, $prob);
 		
 		if ($v_prob > $valmax) {
-		  $argmax = [ @$v_path, $next_state ];
-		  $valmax = $v_prob;
-		  print ">>>>>>>>>>>CAMBIA VALMAX\n";
+			print ">>>>>>>>>>>CAMBIA VALMAX\n";
+			if ($output ne '</s>'){
+				$argmax = [ @$v_path, $next_state ];
+				$valmax = $v_prob;
+			}else{
+				$argmax = [ @$v_path ];
+				$valmax = $v_prob;
+			}
 		}
 		
 		print "VALORES-----------------------------\n";
@@ -434,7 +432,6 @@ sub forward_viterbi
 		print "v_prob: $v_prob \n";
 		print "total: $total \n";
 		print "valmax: $valmax \n";
-
       }
 	  $total = log_base_n(10, $total);
       $U->{$next_state} = [ $total, $argmax, $valmax ];
@@ -523,7 +520,7 @@ sub get_emission
 {
   my ($self, $output, $state) = @_;
 
-  my $e = -99;
+  my $e = 0;
   if (defined($self->{emission}{$output})){
     if (defined($self->{emission}{$output}{$state})){
       $e = $self->{emission}{$output}{$state};

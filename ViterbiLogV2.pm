@@ -375,7 +375,6 @@ produces:
 
 sub forward_viterbi
 {
-  my @katakanas;
   my $prev_katakana;
   
   my $file_in = 'C:\Users\jjmor\Documents\JJMB\Workspace\Perl_Files\Documentos\simulador\probabilidades_emision.csv';
@@ -406,16 +405,14 @@ sub forward_viterbi
   foreach my $output (@$observation) {
     my $U = { };
     my $argmax;
-    my $valmax = -200;
+    my $valmax = -2000;
     my $total = 0;
-    #@katakanas = ();
-    print "\n***************************************FOR OUTPUT <$output>\n";
+    #print "\n***************************************FOR OUTPUT <$output>\n";
     
     foreach my $state (@{$self->{states}}) {
       if ($emision_katakanas{$output}{$state}) {
-      #push (@katakanas, $state);
       
-        print "\n.....................................FOR STATE <$state>\n";
+        #print "\n.....................................FOR STATE <$state>\n";
         #print "contador: $contador \n";
         
         $total = 0;
@@ -442,11 +439,11 @@ sub forward_viterbi
             #print ">>>>>>>>>>>CAMBIA VALMAX\n";
           }
         }else{
-          $valmax = -200;
+          $valmax = -2000;
           #print "prev_katakana: $prev_katakana\n";
           foreach $prev_state (@{$self->{states}}) {
             if ($prev_state eq $prev_katakana) {
-              print "\n+++++++++++++++++++++++++++++FOR PREV_STATE <$prev_state>\n";
+              #print "\n+++++++++++++++++++++++++++++FOR PREV_STATE <$prev_state>\n";
               #print "valmax = $valmax\n";
               my ($prob_ini) = @{$T->{$prev_state}};
               $t = $self->get_transition($prev_state, $state);
@@ -487,39 +484,48 @@ sub forward_viterbi
       }
     }
     
-    $valmax = -200;
-    foreach my $state (keys %$U) {
-      my ($valor_final) = @{$U->{$state}};
-      if ($valor_final > $valmax) {
-          $prev_katakana = $state;
-          $valmax = $valor_final;
-        }
-    }    
-    
-    $contador += 1;
-    $T = $U;
-    
-    $valmax = -200;
-    foreach my $state (@{$self->{states}}) {
-      if ($emision_katakanas{$output}{$state}) {
-        my ($valor_final) = @{$T->{$state}};
-        $total = $valor_final;
-        if ($total > $valmax) {
-          $argmax = $state;
-          $valmax = $total;
+    my @keys = keys %$U;
+    if (@keys) {
+      #print "keys: @keys\n";
+      $valmax = -2000;
+      foreach my $state (keys %$U) {
+        my ($valor_final) = @{$U->{$state}};
+        if ($valor_final > $valmax) {
+            $prev_katakana = $state;
+            $valmax = $valor_final;
+          }
+      }    
+      
+      $contador += 1;
+      $T = $U;
+      
+      $valmax = -2000;
+      foreach my $state (@{$self->{states}}) {
+        if ($emision_katakanas{$output}{$state}) {
+          my ($valor_final) = @{$T->{$state}};
+          $total = $valor_final;
+          if ($total > $valmax) {
+            $argmax = $state;
+            $valmax = $total;
+          }
         }
       }
+      
+      push(@T2, $argmax);
+      #print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!DUMPER U \n";
+      #print Dumper($U);
+      #print "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^DUMPER T \n";
+      #print Dumper($T);
+      #print "\n`````````````````````````DUMPER T2 \n";
+      #print Dumper(@T2);
+      #print "Valor: $valmax\n";
+      $prob_max = $valmax;
+      
+    }else{
+      #print "NO HAY U\n";
     }
     
-    push(@T2, $argmax);
-    #print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!DUMPER U \n";
-    #print Dumper($U);
-    print "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^DUMPER T \n";
-    print Dumper($T);
-    print "\n`````````````````````````DUMPER T2 \n";
-    print Dumper(@T2);
-    print "Valor: $valmax\n";
-    $prob_max = $valmax;
+    
   }
 
   ## apply sum/max to the final states
