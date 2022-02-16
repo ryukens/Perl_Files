@@ -638,7 +638,7 @@
 <s> `ih_n d_ax `v_ih jh_ax w_ax_l </s>
 <s> `b_aa_r_d `f_ay_l `f_ih_sh </s>
 <s> `k_ey b_ax_l `m_ae ch_er </s>
-<s> `f_eh n_ax_l_k t_ax_n `y_er iy ax ) </s>
+<s> `f_eh n_ax_l_k t_ax_n `y_er iy ax </s>
 <s> `hh_ay p_er ih_n `f_l_ey sh_ax_n </s>
 <s> `p_er_l `s_k_ey_l `b_ah t_er f_l_ax `f_ih_sh </s>
 <s> `k_r_ih_p t_aa_n </s>
@@ -5587,7 +5587,7 @@
 <s> `hh_ay `s_t_ae t_ax_s </s>
 <s> `f_ae_n t_ax_m `b_ae n_er `f_ih_sh </s>
 <s> `s_p_ay r_ax_l </s>
-<s> `g_r_ae f_ih_k `ae_l ) `t_uw_l </s>
+<s> `g_r_ae f_ih_k `ae_l `t_uw_l </s>
 <s> `p_r_ay v_ax s_iy `p_aa l_ax s_iy </s>
 <s> `d_ey t_ax `t_ae_g </s>
 <s> `s_t_ae t_ih `s_ay z_er </s>
@@ -8028,7 +8028,7 @@
 <s> `k_r_ey_n </s>
 <s> `ae_k t_ih_v `s_ah_b s_t_ax_n_s `f_r_ah_m `p_l_ae_n_t_s `y_uw_z_d ih_n `m_ae n_y_ax `f_ae_k ch_er `ah_v `s_ow_p, d_ih `t_er jh_ax_n_t_s `ae_n_d `m_eh d_ax `k_ey sh_ax_n </s>
 <s> `sh_eh v_ax `l_ih_r </s>
-<s> `g_ey `l_ih_b `eh `r_ey sh_ax_n ) </s>
+<s> `g_ey `l_ih_b `eh `r_ey sh_ax_n </s>
 <s> `r_eh z_er `v_ey sh_ax_n </s>
 <s> `iy s_t_er `b_ah n_iy </s>
 <s> ax `m_ey_l ax `d_r_eh_s </s>

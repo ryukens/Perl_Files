@@ -938,8 +938,6 @@ Emision EDICT2
 `l_ey,レッ,-2.110590
 
 
-
-
 USAMOS UN MODELO ESTADÍSTICO
 
 OPTIMIZACIÓN CON HASHES -> PROBAR CON LA DATA DE PRUEBA -> EXAMINAR MANERAS DE OPTIMIZACIÓN (En función del contexto)(Posiblemente se necesite conocer los otros probables caminos de una misma observación, en función de un ranking). Esto dependerá de sí llego a una optimización menor al 90%. El contexto depende de la granularidad del proceso de alineación (sílabas o letras por ejemplo.) 
@@ -959,7 +957,6 @@ Explicar porqué se eligio trabajar con fonemas en lugar de otras alternativas. 
 Viterbi se sobrecargaría del otro modo (letras) y la toma de decisión podría ser más dificil. el arbol de conbinaciones sería más grande. 
 
 Entropía.
-
 
 (DOCUMENTACIÓN/TRABAJO FUTURO)Otro ejemplo de segmentación es usando a la observacion no como el fonema completo, sino en función de los caracteres individuales. Disminnuir la cantidad de caracteres para la alineación inicial.
 
@@ -993,4 +990,42 @@ sh_ax_s_t,シスト,0.000000
 
 
 
+DATA-ENTRENAMIENTO-COMPLETO
+utilizable: 23442
+b-og: 23442 / c-cod: 23442
+umbral_1: 12359 / umbral_2: 9258 / umbral_3: 6869 / umbral_4: 5022
+porc_um_1: 47.2783892159372 / porc_um_2: 60.506782697722 / porc_um_3: 70.6978926712738 / porc_um_4: 78.5769132326593
+
+
+DATA-ENTRENAMIENTO-VALIDADA-PORC-CORRECTO
+utilizable: 18371
+b-og: 18371 / c-cod: 18371
+umbral_1: (18371-7606) 10765 / umbral_2: 4720 / umbral_3: 2690 / umbral_4: 1417
+porc_um_1: 58.597789995101 / porc_um_2: 74.3073322083719 / porc_um_3: 85.3573567035001 / porc_um_4: 92.2867563006913
+
+DATA-ENTRENAMIENTO-VALIDADA-PORC-INCORRECTO
+utilizable: 18371
+b-og: 18371 / c-cod: 18371
+umbral_1: 7606 / umbral_2: 4720 / umbral_3: 2690 / umbral_4: 1417
+porc_um_1: 41.402210004899 / porc_um_2: 25.6926677916281 / porc_um_3: 14.6426432964999 / porc_um_4: 7.71324369930869
+
+Representar con gráficas y tablas como se da el incremento de las palabras "validas/aceptables" pues unna porción está correcta y otra no lo está.
+
+Usar chart-plotly.
+https://metacpan.org/pod/Chart::Plotly
+
+DIFERENCIAR ENTRE: precision - acuracy(exactitud). Problema multiclase.
+
+DATA-PRUEBA-COMPLETO
+utilizable: 10047
+b-og: 10047 / c-cod: 10047
+umbral_1: 6805 / umbral_2: 5266 / umbral_3: 3933 / umbral_4: 2747
+porc_um_1: 32.2683388076043 / porc_um_2: 47.586344182343 / porc_um_3: 60.8539862645566 / porc_um_4: 72.658505026376
+
+
+DATA-PRUEBA-VALIDADA
+utilizable: 7980
+b-og: 7980 / c-cod: 7980
+umbral_1: 4772 / umbral_2: 3317 / umbral_3: 2152 / umbral_4: 1216
+porc_um_1: 59.7994987468672 / porc_um_2: 41.5664160401003 / porc_um_3: 26.9674185463659 / porc_um_4: 15.2380952380952
 

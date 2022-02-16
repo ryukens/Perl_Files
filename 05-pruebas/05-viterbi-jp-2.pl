@@ -8,8 +8,8 @@ use 5.28.1;
 my $file_in = '..\Documentos\simulador\vector_inicial.csv';
 my $file_emi = '..\Documentos\simulador\probabilidades_emision.csv';
 my $file_tra = '..\Documentos\simulador\probabilidades_transicion.csv';
-my $file_obs = '..\Documentos\pruebas\Fonemas_Entrenamiento.txt';
-#my $file_obs = '..\Documentos\pruebas\Fonemas_Prueba.txt';
+#my $file_obs = '..\Documentos\pruebas\Fonemas_Entrenamiento.txt';
+my $file_obs = '..\Documentos\pruebas\Fonemas_Prueba.txt';
 #my $file_obs = '..\Documentos\pruebas\testeo.txt';
 my $file_sal = '..\Documentos\pruebas\salida.txt';
 

@@ -214,7 +214,7 @@ sub reemplazo {
                 print "ENCONTRADO: 7 ".$en_syl_phoneme."\n";
                 $flag = $i;
             }
-            if($en_syl_phoneme =~ /`?g\w*/ && $array_katakana[$i-1] =~ /^(ガ|ギ|グ|ゲ|ゴ)/){
+            if($en_syl_phoneme =~ /`?[gj]\w*/ && $array_katakana[$i-1] =~ /^(ガ|ギ|グ|ゲ|ゴ)/){
                 print "ENCONTRADO: 8 ".$en_syl_phoneme."\n";
                 $flag = $i;
             }

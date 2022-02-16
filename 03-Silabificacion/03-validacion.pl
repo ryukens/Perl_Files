@@ -14,6 +14,7 @@ my $file_in = '..\Documentos\results_final.txt';
 my $file_emi = '..\Documentos\diccionario_emision.txt';
 my $file_tran = '..\Documentos\diccionario_transicion.txt';
 my $file_no_val = '..\Documentos\palabras_no_validas.txt';
+my $file_fon_no_val = '..\Documentos\pruebas\fonemas_no_validos.txt';
 my $linea;
 my @array_jp;
 my %diccionario_emision;
@@ -24,6 +25,7 @@ open(FH, '<', $file_in) or die $!;
 open(FHO, '+>', $file_emi) or die $!;
 open(FHO2, '+>', $file_tran) or die $!;
 open(FHO3, '+>', $file_no_val) or die $!;
+open(FHO4, '+>', $file_fon_no_val) or die $!;
 
 while (<FH>) {
     $linea = decode("utf-8", $_);
@@ -70,6 +72,7 @@ close(FH);
 close(FHO);
 close(FHO2);
 close(FHO3);
+close(FHO4);
 
 
 # FUNCIONES
@@ -93,7 +96,7 @@ sub union {
     print "\nKATAKANAS\n";
     print @array_katakana;
     
-    while ($linea_og =~ /((\w*~?`?)*\w*\s\(\{[\s\d]*\}\))/g) {
+    while ($linea_og =~ /((\w*~?`?)*[\w -]*\(\{[ \d]*\}\))/g) {
         push (@array_phoneme, $1);
     }
     
@@ -183,7 +186,7 @@ sub validacion {
                     $correcto++;
                     push (@flag, 1);
                 }
-                if($en_syl_phoneme =~ /`?g\w*/ && $sec_katakana =~ /(ガ|ギ|グ|ゲ|ゴ)/){
+                if($en_syl_phoneme =~ /`?[gj]\w*/ && $sec_katakana =~ /(ガ|ギ|グ|ゲ|ゴ)/){
                     print "ENCONTRADO: 8 ".$en_syl_phoneme."\n";
                     $correcto++;
                     push (@flag, 1);
@@ -322,10 +325,12 @@ sub validacion {
     print "FLAG: \n";
     print @flag;
     if (grep(/0/, @flag)) {
+        my $fonema_no_valido = "<s>";
         foreach my $cont (sort keys %diccionario_emision) {
             foreach my $en_syl_phoneme (keys %{$diccionario_emision{$cont}}) {
                 my $sec_katakana = $diccionario_emision{$cont}{$en_syl_phoneme};
                 my $fonema_katakana = "<s> $en_syl_phoneme $sec_katakana </s>\n";
+                $fonema_no_valido = "$fonema_no_valido $en_syl_phoneme";
                 print FHO3 $fonema_katakana;
             }
         }
@@ -334,6 +339,8 @@ sub validacion {
             print FHO3 $k;    
         }
         print FHO3 "----------------------------------------\n\n";
+        $fonema_no_valido = "$fonema_no_valido </s>\n";
+        print FHO4 $fonema_no_valido;
     }else{
         foreach my $cont (sort keys %diccionario_emision) {
             foreach my $en_syl_phoneme (keys %{$diccionario_emision{$cont}}) {

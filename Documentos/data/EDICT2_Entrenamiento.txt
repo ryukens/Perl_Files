@@ -17061,7 +17061,7 @@ terminal emulation	ターミナルエミュレーション
 switching regulator	スイッチングレギュレータ
 common sense	コモンセンス
 autonomic computing	オートノミックコンピューティング
-ether(net) board	イーサーボード
+ethernet board	イーサーボード
 inside corner	インコーナー
 ecotourism	エコツーリズム
 spider web	スパイダーウェブ
