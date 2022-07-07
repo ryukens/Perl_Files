@@ -49,7 +49,8 @@ while (<FH>) {
         }
     }    
     
-    #BIGRAMAS    
+    #BIGRAMAS
+    #Cada bigrama representa una sílaba fonética única con n posibles secuencias katakana en su interior.
     for (my $a = 0; $a < $tamano_linea; $a++ ){
         my $b = $a + 1;
         if ($b != $tamano_linea) {
@@ -77,26 +78,26 @@ push (@uni_katakanas, "</s>");
 $bigrama{"<s>"}{"<s>"} = 1;
 $bigrama{"</s>"}{"</s>"} = 1;
 
-print ">>>>>>>>>>>>>>>>>>>>> UNIGRAMAS >>>>>>>>>>>>>>>>>>>>>\n";
+#print ">>>>>>>>>>>>>>>>>>>>> UNIGRAMAS >>>>>>>>>>>>>>>>>>>>>\n";
 @uni_valores = values %unigrama;
 foreach my $valor (@uni_valores){
     $total = $total + $valor;
 }
-print "TOTAL: $total\n";
+#print "TOTAL: $total\n";
 
 my $cant = %bigrama;
 print "cantidad bigramas = $cant\n";
 my $cant_kat = @uni_katakanas;
 print "cantidad katakanas = $cant_kat\n";
 
-foreach $llave_1 (keys %bigrama){      
-    foreach $llave_2 (@uni_katakanas){
-        #print "llave2: $llave_2 \n";
-        if (!exists $bigrama{$llave_1}{$llave_2}) {
-            #$bigrama{$llave_1}{$llave_2} = -99;
-        }
-    }
-}
+#foreach $llave_1 (keys %bigrama){      
+#    foreach $llave_2 (@uni_katakanas){
+#        #print "llave2: $llave_2 \n";
+#        if (!exists $bigrama{$llave_1}{$llave_2}) {
+#            $bigrama{$llave_1}{$llave_2} = -99;
+#        }
+#    }
+#}
 
 #print "\n>>>>>>>>>>>>>>>>>>>>> UNIGRAMA_PROB >>>>>>>>>>>>>>>>>>>>>\n";
 #foreach $llave_1 (keys %unigrama){
@@ -108,7 +109,7 @@ foreach $llave_1 (keys %bigrama){
     #print "$llave_1 = $unigrama_prob{$llave_1}\n";
 #}
 
-print "\n>>>>>>>>>>>>>>>>>>>>> BIGRAMAS >>>>>>>>>>>>>>>>>>>>>\n";
+#print "\n>>>>>>>>>>>>>>>>>>>>> BIGRAMAS >>>>>>>>>>>>>>>>>>>>>\n";
 foreach $llave_1 (keys %bigrama){
     foreach $llave_2 (keys %{$bigrama{$llave_1}}){
         #print "$llave_1 / $llave_2 = $bigrama{$llave_1}{$llave_2}\n";
@@ -132,7 +133,7 @@ foreach $llave_1 (keys %bigrama){
 #print FHO "<s>,<s>,0.000000\n";
 #print FHO "</s>,</s>,0.000000\n";
 
-print "\n>>>>>>>>>>>>>>>>>>>>> BIGRAMA_PROB >>>>>>>>>>>>>>>>>>>>>\n";
+#print "\n>>>>>>>>>>>>>>>>>>>>> BIGRAMA_PROB >>>>>>>>>>>>>>>>>>>>>\n";
 foreach $llave_1 (keys %bigrama_prob){
     foreach $llave_2 (keys %{$bigrama{$llave_1}}){
         #print "$llave_1 / $llave_2 = $bigrama_prob{$llave_1}{$llave_2}\n"; 
