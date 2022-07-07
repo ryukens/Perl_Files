@@ -64,19 +64,19 @@ while (<FH>) {
     }
 }
 
-print ">>>>>>>>>>>>>>>>>>>>> UNIGRAMAS >>>>>>>>>>>>>>>>>>>>>\n";
+#print ">>>>>>>>>>>>>>>>>>>>> UNIGRAMAS >>>>>>>>>>>>>>>>>>>>>\n";
 @uni_valores = values %unigrama;
 foreach my $valor (@uni_valores){
     $total = $total + $valor;
 }
-print "TOTAL: $total\n";
+#print "TOTAL: $total\n";
 $total_s = $total - $unigrama{'<s>'};
-print "TOTAL sin <s>: $total_s\n";
+#print "TOTAL sin <s>: $total_s\n";
 my $cant = %unigrama;
 print "cantidad unigramas = $cant\n";
 
 foreach $llave_1 (keys %unigrama){
-    print "unigrama: $llave_1 valor: $unigrama{$llave_1}\n";
+    #print "unigrama: $llave_1 valor: $unigrama{$llave_1}\n";
     if ($llave_1 eq "<s>") {
         $vector_inicial{$llave_1} = 0;
     }else{
@@ -89,21 +89,21 @@ foreach $llave_1 (keys %unigrama){
 #}
 
 
-foreach $llave_1 (keys %unigrama){
-    foreach $llave_2 (keys %unigrama){        
-        if (!exists $bigrama{$llave_1}{$llave_2}) {
-            #$bigrama{$llave_1}{$llave_2} = -99;
-        }
-    }
+#foreach $llave_1 (keys %unigrama){
+#    foreach $llave_2 (keys %unigrama){        
+#        if (!exists $bigrama{$llave_1}{$llave_2}) {
+#            #$bigrama{$llave_1}{$llave_2} = -99;
+#        }
+#    }
 #   $unigrama_prob{$llave_1} = $unigrama{$llave_1}/$total_s;
-}
+#}
 
 #print "\n>>>>>>>>>>>>>>>>>>>>> UNIGRAMA_PROB >>>>>>>>>>>>>>>>>>>>>\n";
 #foreach $llave_1 (keys %unigrama_prob){
 #    print "$llave_1 = $unigrama_prob{$llave_1}\n";
 #}
 
-print "\n>>>>>>>>>>>>>>>>>>>>> BIGRAMAS >>>>>>>>>>>>>>>>>>>>>\n";
+#print "\n>>>>>>>>>>>>>>>>>>>>> BIGRAMAS >>>>>>>>>>>>>>>>>>>>>\n";
 foreach $llave_1 (keys %bigrama){
     foreach $llave_2 (keys %{$bigrama{$llave_1}}){
         #print "$llave_1 / $llave_2 = $bigrama{$llave_1}{$llave_2}\n";
@@ -124,19 +124,17 @@ foreach $llave_1 (keys %bigrama){
     }
 }
 
-print "\n>>>>>>>>>>>>>>>>>>>>> BIGRAMA_PROB >>>>>>>>>>>>>>>>>>>>>\n";
+#print "\n>>>>>>>>>>>>>>>>>>>>> BIGRAMA_PROB >>>>>>>>>>>>>>>>>>>>>\n";
 foreach $llave_1 (keys %bigrama_prob){
     foreach $llave_2 (keys %{$bigrama{$llave_1}}){
         #print "$llave_1 / $llave_2 = $bigrama_prob{$llave_1}{$llave_2}\n"; 
         my $st = sprintf ("%s,%s,%.6f\n", $llave_1,$llave_2,$bigrama_prob{$llave_1}{$llave_2});
         #print $st;
-        print FHO $st;
-        
-        
+        print FHO $st;       
     }
 }
 
-print "\n>>>>>>>>>>>>>>>>>>>>> VECTOR_INICIAL >>>>>>>>>>>>>>>>>>>>>\n";
+#print "\n>>>>>>>>>>>>>>>>>>>>> VECTOR_INICIAL >>>>>>>>>>>>>>>>>>>>>\n";
 foreach $uni_inicial (keys %vector_inicial){
     my $vc = sprintf ("%s,%.6f\n", $uni_inicial,$vector_inicial{$uni_inicial});
     #print $vc;

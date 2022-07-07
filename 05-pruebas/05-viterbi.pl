@@ -14,7 +14,7 @@ my $transition_probability = {
 my $emission_probability = {
   'shop' =>  { 'Sunny' => '0.24', 'Rainy' => '0.41' },
   'walk' =>  { 'Sunny' => '0.65', 'Rainy' => '0.09' },
-  'clean' => { 'Sunny' => '0.1', 'Rainy' => '0.5' }
+  'clean' => { 'Sunny' => '0.11', 'Rainy' => '0.5' }
 };
  
 my $v = Algorithm::Viterbi->new();

@@ -314,8 +314,8 @@ sub transition
 
 =item forward_viterbi
 
-This method calculates the forward probability, the Viterbi path 
-and the Viterbi probability of a given sequence of observations.
+This method calculates the the Viterbi path and the Viterbi probability
+of a given sequence of observations.
 For a detailed description of the Algorithm, see the Wikipedia page
 L<http://en.wikipedia.org/wiki/Viterbi_algorithm>.
 
@@ -323,53 +323,10 @@ The difference with the algorithm described in the web page above,
 is that the emission and the transition are calculated somewhat
 differently. See methods get_emission and get_transition.
 
-Example:
-
-  use strict;
-  use Algorithm::Viterbi;
-  use Data::Dumper;
-
-    
-  my $observations = [ 'walk', 'shop', 'clean' ];
-   my $start = { 'Rainy'=> 0.6, 'Sunny'=> 0.4 };
-   my $transition = {
-      'Rainy' => {'Rainy'=> 0.7, 'Sunny'=> 0.3},
-      'Sunny' => {'Rainy'=> 0.4, 'Sunny'=> 0.6},
-      };
-
-  my $emission = {
-    'shop' => {
-      'Sunny' => '0.3',
-      'Rainy' => '0.4',
-    },
-
-    'walk' => {
-      'Sunny' => '0.6',
-      'Rainy' => '0.1'
-    },
-    'clean' => {
-      'Sunny' => '0.1',
-      'Rainy' => '0.5'
-      }
-  };
-
-  my $v = Algorithm::Viterbi->new();
-  $v->emission($emission);
-  $v->transition($transition);
-  $v->start($start);
-
-  print Dumper ($v->forward_viterbi($observations));
-
-produces:
-
-  $VAR1 = '0.033612';
-  $VAR2 = [
-	    'Sunny',
-	    'Rainy',
-	    'Rainy',
-	    'Rainy'
-	  ];
-  $VAR3 = '0.009408';
+Also, this new version calculates everything using base 10 logarithms
+and it's main goal is to transliterate words from english to katakana.
+Viterbi will only calculate the probabilities when there is a bigram 
+between the input observation and the state to be analyzed.
 
 =cut
 
@@ -381,11 +338,11 @@ sub forward_viterbi
   open(FH, '<', $file_in) or die $!;
   my %emision_katakanas;
   while (<FH>) {
-    my $linea = $_;
-    chomp($linea);
-    my @array_linea = split(',', $linea, length($linea));
-    my $tamano_linea = @array_linea;
-    $emision_katakanas{$array_linea[0]}{$array_linea[1]} = $array_linea[2];      
+    my $line = $_;
+    chomp($line);
+    my @array_line = split(',', $line, length($line));
+    my $tamano_line = @array_line;
+    $emision_katakanas{$array_line[0]}{$array_line[1]} = $array_line[2];      
   }
   
   close (FH);
@@ -399,7 +356,7 @@ sub forward_viterbi
     $T->{$state} = [ $self->{start}{$state}]; 
   }
   
-  my $contador = 1;
+  my $count = 1;
   my $prob_max;
 
   foreach my $output (@$observation) {
@@ -407,44 +364,31 @@ sub forward_viterbi
     my $argmax;
     my $valmax = -2000;
     my $total = 0;
-    #print "\n***************************************FOR OUTPUT <$output>\n";
     
     foreach my $state (@{$self->{states}}) {
       if ($emision_katakanas{$output}{$state}) {
-      
-        #print "\n.....................................FOR STATE <$state>\n";
-        #print "contador: $contador \n";
-        
+            
         $total = 0;
         my $prev_state = '';
         
-        #my ($prob_ini) = @{$T->{$state}};
         my $e = $self->get_emission($output, $state);
         my $t = 0;
         
-        #print "\nINICIO*****************************\n";        
         my $p;
         
-        if ($contador == 1) {
+        if ($count == 1) {
           my ($prob_ini) = @{$T->{$state}};
-          
-          #print "prob_ini: $prob_ini \n";
-          #print "total: $total \n";
           
           $p = $prob_ini + $e;
           $total += $p;
           if ($total > $valmax) {
             $argmax = $state;
             $valmax = $total;
-            #print ">>>>>>>>>>>CAMBIA VALMAX\n";
           }
         }else{
           $valmax = -2000;
-          #print "prev_katakana: $prev_katakana\n";
           foreach $prev_state (@{$self->{states}}) {
             if ($prev_state eq $prev_katakana) {
-              #print "\n+++++++++++++++++++++++++++++FOR PREV_STATE <$prev_state>\n";
-              #print "valmax = $valmax\n";
               my ($prob_ini) = @{$T->{$prev_state}};
               $t = $self->get_transition($prev_state, $state);
               $p = $prob_ini + $t;
@@ -452,41 +396,17 @@ sub forward_viterbi
               if ($p > $valmax) {
                 $valmax = $p;
                 $total = $p + $e;          
-                #print ">>>>>>>>>>>CAMBIA VALMAX\n";
               }
-              #print "VALORES PREV_STATE-----------------------------\n";
-              #print "output: $output \n";
-              #print "prev_state: $prev_state \n";
-              #print "state: $state \n";
-              #print "prob_ini: $prob_ini \n";
-              #print "e: $e \n";
-              #print "t: $t \n";
-              #print "p: $p \n";
-              #print "total: $total \n";
-              #print "valmax: $valmax \n\n";
             }
           }
-        }
-        
-        #print "VALORES-----------------------------\n";
-        #print "output: $output \n";
-        #print "prev_state: $prev_state \n";
-        #print "state: $state \n";
-        #print "prob_ini: $prob_ini \n";
-        #print "e: $e \n";
-        #print "t: $t \n";
-        #print "p: $p \n";
-        #print "total: $total \n";
-        #print "valmax: $valmax \n";      
-        
+        }       
         $U->{$state} = [ $total ];
-        #$T->{$state} = [ $total ];
       }
     }
     
+	## apply sum/max to the final states
     my @keys = keys %$U;
     if (@keys) {
-      #print "keys: @keys\n";
       $valmax = -2000;
       foreach my $state (keys %$U) {
         my ($valor_final) = @{$U->{$state}};
@@ -496,7 +416,7 @@ sub forward_viterbi
           }
       }    
       
-      $contador += 1;
+      $count += 1;
       $T = $U;
       
       $valmax = -2000;
@@ -512,32 +432,9 @@ sub forward_viterbi
       }
       
       push(@T2, $argmax);
-      #print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!DUMPER U \n";
-      #print Dumper($U);
-      #print "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^DUMPER T \n";
-      #print Dumper($T);
-      #print "\n`````````````````````````DUMPER T2 \n";
-      #print Dumper(@T2);
-      #print "Valor: $valmax\n";
       $prob_max = $valmax;
-      
-    }else{
-      #print "NO HAY U\n";
-    }
-    
-    
+    }    
   }
-
-  ## apply sum/max to the final states
-  #my $total = 0;
-  #my $valmax = -200;
-  #foreach my $state (@{$self->{states}}) {
-  #  my ($prob_ini) = @{$T->{$state}};
-  #  $total = $prob_ini;
-  #  if ($total > $valmax) {
-  #    $valmax = $total;
-  #  }
-  #}
   return ($prob_max, @T2);
 }
 

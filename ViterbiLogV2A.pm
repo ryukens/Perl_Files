@@ -389,9 +389,9 @@ sub forward_viterbi
   foreach my $output (@$observation) {
     my $U = { };
     my $argmax;
-    my $valmax = -200;
+    my $valmax = -10000;
     my $total = 0;
-    print "\n***************************************FOR OUTPUT <$output>\n";
+#    print "\n***************************************FOR OUTPUT <$output>\n";
     
     foreach my $state (@{$self->{states}}) {
       #print "\n.....................................FOR STATE <$state>\n";
@@ -419,7 +419,7 @@ sub forward_viterbi
           #print ">>>>>>>>>>>CAMBIA VALMAX\n";
         }
       }else{
-        $valmax = -200;
+        $valmax = -10000;
         foreach $prev_state (@{$self->{states}}) {
           #print "\n+++++++++++++++++++++++++++++FOR PREV_STATE <$prev_state>\n";
           #print "valmax = $valmax\n";
@@ -461,7 +461,7 @@ sub forward_viterbi
     $contador += 1;
     $T = $U;
     
-    $valmax = -200;
+    $valmax = -10000;
     foreach my $state (@{$self->{states}}) { 
       my ($valor_final) = @{$T->{$state}};
       $total = $valor_final;
@@ -472,16 +472,16 @@ sub forward_viterbi
     }
     
     push(@T2, $argmax);
-    print "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^DUMPER T \n";
-    print Dumper($T);
-    print "\n`````````````````````````DUMPER T2 \n";
-    print Dumper(@T2);
-    print "Valor: $valmax\n";
+#    print "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^DUMPER T \n";
+#    print Dumper($T);
+#    print "\n`````````````````````````DUMPER T2 \n";
+#    print Dumper(@T2);
+#    print "Valor: $valmax\n";
   }
 
   ## apply sum/max to the final states
   my $total = 0;
-  my $valmax = -200;
+  my $valmax = -10000;
   foreach my $state (@{$self->{states}}) {
     my ($prob_ini) = @{$T->{$state}};
     $total = $prob_ini;

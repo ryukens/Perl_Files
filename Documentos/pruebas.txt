@@ -575,6 +575,8 @@ Cambiar Timeout en Regex101 para que funcione
 (Obtener Katakanas y Fonemas de las entradas)
 ^[\x{30A0}-\x{30FF};\(\)\[\]\s\w]*\s*\(.*$
 
+^[\x{30A0}-\x{30FF};\(\)\[\]\w]*\s*$
+
 QUITAR <s> </s> y espacios en blanco
 [<s>\/ ]
 
@@ -997,17 +999,17 @@ umbral_1: 12359 / umbral_2: 9258 / umbral_3: 6869 / umbral_4: 5022
 porc_um_1: 47.2783892159372 / porc_um_2: 60.506782697722 / porc_um_3: 70.6978926712738 / porc_um_4: 78.5769132326593
 
 
-DATA-ENTRENAMIENTO-VALIDADA-PORC-CORRECTO
+DATA-ENTRENAMIENTO-VALIDADA
+total: 23442
 utilizable: 18371
 b-og: 18371 / c-cod: 18371
-umbral_1: (18371-7606) 10765 / umbral_2: 4720 / umbral_3: 2690 / umbral_4: 1417
-porc_um_1: 58.597789995101 / porc_um_2: 74.3073322083719 / porc_um_3: 85.3573567035001 / porc_um_4: 92.2867563006913
-
-DATA-ENTRENAMIENTO-VALIDADA-PORC-INCORRECTO
-utilizable: 18371
-b-og: 18371 / c-cod: 18371
+INCORRECTO
 umbral_1: 7606 / umbral_2: 4720 / umbral_3: 2690 / umbral_4: 1417
 porc_um_1: 41.402210004899 / porc_um_2: 25.6926677916281 / porc_um_3: 14.6426432964999 / porc_um_4: 7.71324369930869
+
+CORRECTO
+umbral_1_corr: 10765 / umbral_2_corr: 13651 / umbral_3_corr: 15681 / umbral_4_corr: 16954
+porc_um_1_corr: 58.597789995101 / porc_um_2_corr: 74.3073322083719 / porc_um_3_corr: 85.3573567035001 / porc_um_4_corr: 92.2867563006913
 
 Representar con gráficas y tablas como se da el incremento de las palabras "validas/aceptables" pues unna porción está correcta y otra no lo está.
 
@@ -1024,8 +1026,28 @@ porc_um_1: 32.2683388076043 / porc_um_2: 47.586344182343 / porc_um_3: 60.8539862
 
 
 DATA-PRUEBA-VALIDADA
+total: 10047
 utilizable: 7980
 b-og: 7980 / c-cod: 7980
+INCORRECTO
 umbral_1: 4772 / umbral_2: 3317 / umbral_3: 2152 / umbral_4: 1216
 porc_um_1: 59.7994987468672 / porc_um_2: 41.5664160401003 / porc_um_3: 26.9674185463659 / porc_um_4: 15.2380952380952
 
+CORRECTO
+umbral_1_corr: 3208 / umbral_2_corr: 4663 / umbral_3_corr: 5828 / umbral_4_corr: 6764
+porc_um_1_corr: 40.2005012531328 / porc_um_2_corr: 58.4335839598998 / porc_um_3_corr: 73.0325814536341 / porc_um_4_corr: 84.7619047619048
+
+
+
+
+***MEJOR****https://www.sljfaq.org/cgi/e2k.cgi
+benkasminbullock@gmail.com
+
+https://context.reverso.net/translation/english-japanese/
+
+https://apps.nolanlawson.com/japanese-name-converter/
+
+https://stevemorse.org/japanese/eng2kan.html
+
+
+una muestra de 100 palabras aleatorias de la data de prueba (10000) usarla en la primera página.
